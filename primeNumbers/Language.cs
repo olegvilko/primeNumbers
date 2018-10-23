@@ -20,6 +20,9 @@ namespace primeNumbers
             public string file;
             public string settings;
             public string help;
+            public string get;
+            public string maxNum;
+            public string maxSimple;
         }
 
         public Language(string lang)
@@ -45,6 +48,9 @@ namespace primeNumbers
             name.file = "Файл";
             name.settings = "Опции";
             name.help = "Справка";
+            name.get = "Вывести";
+            name.maxNum = "Последнее число: ";
+            name.maxSimple = "Последнее простое число: ";
         }
 
         public void En()
@@ -54,6 +60,9 @@ namespace primeNumbers
             name.file = "File";
             name.settings = "Settings";
             name.help = "Help";
+            name.get = "Get";
+            name.maxNum = "Max number: ";
+            name.maxSimple = "Max simple: ";
         }
     }
 }
