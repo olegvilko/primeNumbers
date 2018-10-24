@@ -10,6 +10,13 @@ namespace primeNumbers
 {
     class Maths
     {
+        public int[] arraySimples;
+
+        public void SetArraySimples()
+        {
+
+        }
+
         public void NewNumber(int num)
         {
 

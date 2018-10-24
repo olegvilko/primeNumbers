@@ -8,6 +8,7 @@ namespace primeNumbers
 {
     class Language
     {
+        
         public Name name;
 
         public string en = "En";
@@ -15,6 +16,7 @@ namespace primeNumbers
 
         public struct Name
         {
+            
             public string start;
             public string stop;
             public string file;
@@ -23,6 +25,10 @@ namespace primeNumbers
             public string get;
             public string maxNum;
             public string maxSimple;
+            public string nameProject;
+            public string language;
+            public string clearDataBase;
+            public string pathDataBase;
         }
 
         public Language(string lang)
@@ -51,6 +57,10 @@ namespace primeNumbers
             name.get = "Вывести";
             name.maxNum = "Последнее число: ";
             name.maxSimple = "Последнее простое число: ";
+            name.nameProject = "Простые числа";
+            name.language = "Язык";
+            name.clearDataBase = "Очистить базу";
+            name.pathDataBase = "Путь к базе данных";
         }
 
         public void En()
@@ -63,6 +73,10 @@ namespace primeNumbers
             name.get = "Get";
             name.maxNum = "Max number: ";
             name.maxSimple = "Max simple: ";
+            name.nameProject = "Simple numbers";
+            name.language = "Language";
+            name.clearDataBase = "Clear DataBase";
+            name.pathDataBase = "Path DataBase";
         }
     }
 }

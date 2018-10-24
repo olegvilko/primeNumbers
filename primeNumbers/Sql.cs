@@ -97,8 +97,13 @@ namespace primeNumbers
 
             SqlCommand command = new SqlCommand("SELECT MAX(Num) FROM [Numbers1]", sqlConnection);
 
-            int max = Convert.ToInt32(command.ExecuteScalar());
+            int max = 0;
 
+            object obj = command.ExecuteScalar();
+            if (obj != DBNull.Value)
+            {
+                max = Convert.ToInt32(obj);
+            }
             sqlConnection.Close();
 
             return max;
@@ -112,16 +117,61 @@ namespace primeNumbers
 
             SqlCommand command = new SqlCommand("SELECT MAX(Simple) FROM [Numbers1]", sqlConnection);
 
-            int max = Convert.ToInt32(command.ExecuteScalar());
+            int max = 0;
+
+            object obj = command.ExecuteScalar();
+            if (obj != DBNull.Value)
+            {
+                max = Convert.ToInt32(command.ExecuteScalar());
+            }
 
             sqlConnection.Close();
 
             return max;
         }
 
-        SqlCommand GetSqlCommand(string command)
+        public void ClearDatabase()
         {
-            return new SqlCommand(command, sqlConnection);
+            sqlConnection = new SqlConnection(defaultSettings.connectionString);
+
+            sqlConnection.Open();
+
+            SqlCommand command = new SqlCommand("TRUNCATE TABLE [Numbers1]", sqlConnection);
+
+            int max = 0;
+
+            object obj = command.ExecuteScalar();
+
+            if (obj != DBNull.Value)
+            {
+                max = Convert.ToInt32(command.ExecuteScalar());
+            }
+
+            sqlConnection.Close();
         }
+
+        public int GetNum(int simple)
+        {
+            sqlConnection = new SqlConnection(defaultSettings.connectionString);
+
+            sqlConnection.Open();
+
+            SqlCommand command = new SqlCommand("SELECT Num FROM [Numbers1] WHERE Simple=" + simple, sqlConnection);
+
+            int num = 0;
+
+            object obj = command.ExecuteScalar();
+
+            if (obj != DBNull.Value)
+            {
+                num = Convert.ToInt32(command.ExecuteScalar());
+            }
+
+            sqlConnection.Close();
+
+            return num;
+        }
+
+
     }
 }

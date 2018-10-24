@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace primeNumbers
 {
-    public partial class Form1 : Form
+    public partial class Simple : Form
     {
         DefaultSettings defaultSettings;
 
@@ -26,11 +26,14 @@ namespace primeNumbers
             FileToolStripMenuItem.Text = language.name.file;
             HelpToolStripMenuItem.Text = language.name.help;
             StartToolStripMenuItem.Text = language.name.start;
-            StopToolStripMenuItem.Text = language.name.stop;
             SettingsToolStripMenuItem.Text = language.name.settings;
             getToolStripMenuItem.Text = language.name.get;
             toolStripStatusLabel1.Text = language.name.maxNum;
             toolStripStatusLabel3.Text = language.name.maxSimple;
+            this.Text = language.name.nameProject;
+            languageToolStripMenuItem.Text = language.name.language;
+            clearDataBaseToolStripMenuItem.Text = language.name.clearDataBase;
+            pathToolStripMenuItem.Text = language.name.pathDataBase;
         }
 
         void StartOptions()
@@ -48,7 +51,7 @@ namespace primeNumbers
             MaxSimple();
         }
 
-        public Form1()
+        public Simple()
         {
             InitializeComponent();
         }
@@ -84,10 +87,43 @@ namespace primeNumbers
 
             if (StartToolStripMenuItem.Text == language.name.stop)
             {
-                //  sql.AddNum();
-                SqlCommand command = new SqlCommand("INSERT INTO [Numbers] (Num)VALUES (@Num)", sql.sqlConnection);
-                command.Parameters.AddWithValue("Num", "22");
-                await command.ExecuteNonQueryAsync();
+                int num = sql.GetMaxNum() + 1;
+                int simple = sql.GetMaxSimple();
+
+                sql.sqlConnection = new SqlConnection(defaultSettings.connectionString);
+
+                await sql.sqlConnection.OpenAsync();
+
+                SqlCommand command;
+
+                while (StartToolStripMenuItem.Text == language.name.stop)
+                {
+                    bool numSimple = true;
+                    for (int i = 2; i < num; i++) {
+
+                        command = new SqlCommand("SELECT Num FROM [Numbers1] WHERE Simple=" + i, sql.sqlConnection);
+
+                        if ((double)num/i==num/i)
+                        {
+                            numSimple = false;
+                            break;
+                        }
+                    }
+
+                    
+                        command = new SqlCommand("INSERT INTO [Numbers1] (Simple)VALUES (@Simple)", sql.sqlConnection);
+                    if (numSimple == true)
+                    {
+                        command.Parameters.AddWithValue("Simple", simple);
+                        simple++;
+                    } else
+                    {
+                        command.Parameters.AddWithValue("Simple", "");
+                    }
+                        await command.ExecuteNonQueryAsync();
+                    
+                    num++;
+                }
             }
         }
 
@@ -148,5 +184,11 @@ namespace primeNumbers
         {
             toolStripStatusLabel4.Text = Convert.ToString(sql.GetMaxSimple());
         }
+
+        private void clearDataBaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            sql.ClearDatabase();
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace primeNumbers
 {
-    partial class Form1
+    partial class Simple
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -33,18 +33,20 @@
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.StopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.русскийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearDataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.pathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +57,6 @@
             this.FileToolStripMenuItem,
             this.HelpToolStripMenuItem,
             this.StartToolStripMenuItem,
-            this.StopToolStripMenuItem,
             this.SettingsToolStripMenuItem,
             this.getToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -92,16 +93,12 @@
             this.StartToolStripMenuItem.Text = "Start";
             this.StartToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItemStart_Click);
             // 
-            // StopToolStripMenuItem
-            // 
-            this.StopToolStripMenuItem.Name = "StopToolStripMenuItem";
-            this.StopToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.StopToolStripMenuItem.Text = "Stop";
-            // 
             // SettingsToolStripMenuItem
             // 
             this.SettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.languageToolStripMenuItem});
+            this.languageToolStripMenuItem,
+            this.clearDataBaseToolStripMenuItem,
+            this.pathToolStripMenuItem});
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
             this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.SettingsToolStripMenuItem.Text = "Settings";
@@ -112,22 +109,29 @@
             this.englishToolStripMenuItem,
             this.русскийToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.languageToolStripMenuItem.Text = "Language";
             // 
             // englishToolStripMenuItem
             // 
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.englishToolStripMenuItem.Text = "English";
             this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
             // русскийToolStripMenuItem
             // 
             this.русскийToolStripMenuItem.Name = "русскийToolStripMenuItem";
-            this.русскийToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.русскийToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.русскийToolStripMenuItem.Text = "Русский";
             this.русскийToolStripMenuItem.Click += new System.EventHandler(this.русскийToolStripMenuItem_Click);
+            // 
+            // clearDataBaseToolStripMenuItem
+            // 
+            this.clearDataBaseToolStripMenuItem.Name = "clearDataBaseToolStripMenuItem";
+            this.clearDataBaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearDataBaseToolStripMenuItem.Text = "Clear DataBase";
+            this.clearDataBaseToolStripMenuItem.Click += new System.EventHandler(this.clearDataBaseToolStripMenuItem_Click);
             // 
             // getToolStripMenuItem
             // 
@@ -167,6 +171,12 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel4.Text = "toolStripStatusLabel4";
+            // 
             // listBox1
             // 
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -176,13 +186,20 @@
             this.listBox1.Size = new System.Drawing.Size(800, 404);
             this.listBox1.TabIndex = 5;
             // 
-            // toolStripStatusLabel4
+            // pathToolStripMenuItem
             // 
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel4.Text = "toolStripStatusLabel4";
+            this.pathToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBox1});
+            this.pathToolStripMenuItem.Name = "pathToolStripMenuItem";
+            this.pathToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pathToolStripMenuItem.Text = "Path";
             // 
-            // Form1
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            // 
+            // Simple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -191,8 +208,8 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Simple";
+            this.Text = "Simple numbers";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -210,7 +227,6 @@
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem HelpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem StartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem StopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
@@ -222,6 +238,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripMenuItem clearDataBaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pathToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }
 
