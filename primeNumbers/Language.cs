@@ -29,6 +29,9 @@ namespace primeNumbers
             public string language;
             public string clearDataBase;
             public string pathDataBase;
+            public string exit;
+            public string delay;
+            public string applay;
         }
 
         public Language(string lang)
@@ -56,11 +59,15 @@ namespace primeNumbers
             name.help = "Справка";
             name.get = "Вывести";
             name.maxNum = "Последнее число: ";
-            name.maxSimple = "Последнее простое число: ";
+            name.maxSimple = "Найдено простых чисел: ";
             name.nameProject = "Простые числа";
             name.language = "Язык";
             name.clearDataBase = "Очистить базу";
             name.pathDataBase = "Путь к базе данных";
+            name.exit = "Выход";
+            name.delay = "Задержка";
+            name.applay = "Применить";
+            
         }
 
         public void En()
@@ -72,11 +79,14 @@ namespace primeNumbers
             name.help = "Help";
             name.get = "Get";
             name.maxNum = "Max number: ";
-            name.maxSimple = "Max simple: ";
-            name.nameProject = "Simple numbers";
+            name.maxSimple = "Found prime numbers: ";
+            name.nameProject = "Prime numbers";
             name.language = "Language";
             name.clearDataBase = "Clear DataBase";
             name.pathDataBase = "Path DataBase";
+            name.exit = "Exit";
+            name.delay = "Delay";
+            name.applay = "Apply";
         }
     }
 }

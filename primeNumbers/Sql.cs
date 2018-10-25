@@ -7,169 +7,120 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
-
+using MySql.Data.MySqlClient;
 
 namespace primeNumbers
 {
     class Sql
     {
-        public SqlConnection sqlConnection;
 
-        public SqlDataReader sqlReader = null;
+        public MySqlConnection mySqlConnection;
 
-        DefaultSettings defaultSettings;
+        public DefaultSettings defaultSettings;
+
+        public enum Table
+        {
+            id,
+            simple
+        }
 
         public Sql()
         {
-            SqlConnect();
-        }
-
-        public async void SqlConnect()
-        {
             defaultSettings = new DefaultSettings();
 
-            sqlConnection = new SqlConnection(defaultSettings.connectionString);
-
-            await sqlConnection.OpenAsync();
-
-            SqlCommand command = new SqlCommand("SELECT * FROM [Numbers]", sqlConnection);
-
-            try
-            {
-                sqlReader = await command.ExecuteReaderAsync();
-
-                while (await sqlReader.ReadAsync())
-                {
-                    //  listBox1.Items.Add(Convert.ToString((sqlReader["Id"]) + "        " + Convert.ToString(sqlReader["Num"]) + "      " + Convert.ToString(sqlReader["NumId"])));
-                }
-            }
-            catch (Exception ex)
-            {
-                //  MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (sqlReader != null)
-                    sqlReader.Close();
-            }
+            Connect();
         }
 
-        public async void GetSelect(string select)
+        public void Connect()
         {
-            await sqlConnection.OpenAsync();
+            
 
-            SqlCommand command = new SqlCommand("SELECT * FROM [Numbers]", sqlConnection);
+            mySqlConnection = new MySqlConnection(defaultSettings.connectionString);
 
-            try
-            {
-                sqlReader = await command.ExecuteReaderAsync();
-
-                while (await sqlReader.ReadAsync())
-                {
-                    //  listBox1.Items.Add(Convert.ToString((sqlReader["Id"]) + "        " + Convert.ToString(sqlReader["Num"]) + "      " + Convert.ToString(sqlReader["NumId"])));
-                    //           return sqlReader["Num"];
-                }
-            }
-            catch (Exception ex)
-            {
-                //  MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (sqlReader != null)
-                    sqlReader.Close();
-
-            }
-            //  return null;
+            //       mySqlConnection.Open();
         }
 
-        public void AddNum()
+        int SelectExecuteScalar(string str)
         {
-            SqlCommand command = new SqlCommand("INSERT INTO [Numbers] (Num)VALUES (@Num)", sqlConnection);
-            command.Parameters.AddWithValue("Num", 22);
+            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase, mySqlConnection);
+            mySqlConnection.Open();
+            object obj = command.ExecuteScalar();
+            mySqlConnection.Close();
+            if (obj != DBNull.Value)
+            {
+
+                return Convert.ToInt32(obj);
+            }
+
+            return 0;
+
         }
 
-        public int GetMaxNum()
+        int SelectExecuteScalar(string str, string where)
         {
-            sqlConnection = new SqlConnection(defaultSettings.connectionString);
-
-            sqlConnection.Open();
-
-            SqlCommand command = new SqlCommand("SELECT MAX(Num) FROM [Numbers1]", sqlConnection);
-
-            int max = 0;
-
+            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase + " WHERE " + where, mySqlConnection);
             object obj = command.ExecuteScalar();
             if (obj != DBNull.Value)
             {
-                max = Convert.ToInt32(obj);
+                return Convert.ToInt32(obj);
             }
-            sqlConnection.Close();
+            return 0;
+        }
 
-            return max;
+
+
+        public async void InsertSimple(string simple)
+        {
+            //  if (mySqlConnection.State == ConnectionState.Closed)
+            MySqlConnection connection = new MySqlConnection(defaultSettings.connectionString);
+            await connection.OpenAsync();
+            MySqlCommand command = new MySqlCommand("INSERT INTO " + defaultSettings.dataBase + " (simple)VALUES (@Simple)", connection);
+            command.Parameters.AddWithValue("simple", simple);
+            await command.ExecuteNonQueryAsync();
+            await connection.CloseAsync();
+        }
+
+        public List<object[]> SelectReader(string str)
+        {
+            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataReader reader = command.ExecuteReader();
+
+            List<object[]> list = new List<object[]>();
+
+            foreach (IDataRecord current in reader)
+            {
+                object[] row = new object[reader.FieldCount];
+                reader.GetValues(row);
+                list.Add(row);
+            }
+            //   object[][] ret = new object[list.Count][];
+            //    list.CopyTo(ret);
+            mySqlConnection.Close();
+            return list;
+        }
+
+        public int GetMaxId()
+        {
+            return SelectExecuteScalar("MAX(id)");
         }
 
         public int GetMaxSimple()
         {
-            sqlConnection = new SqlConnection(defaultSettings.connectionString);
-
-            sqlConnection.Open();
-
-            SqlCommand command = new SqlCommand("SELECT MAX(Simple) FROM [Numbers1]", sqlConnection);
-
-            int max = 0;
-
-            object obj = command.ExecuteScalar();
-            if (obj != DBNull.Value)
-            {
-                max = Convert.ToInt32(command.ExecuteScalar());
-            }
-
-            sqlConnection.Close();
-
-            return max;
+            return SelectExecuteScalar("MAX(Simple)");
         }
 
         public void ClearDatabase()
         {
-            sqlConnection = new SqlConnection(defaultSettings.connectionString);
-
-            sqlConnection.Open();
-
-            SqlCommand command = new SqlCommand("TRUNCATE TABLE [Numbers1]", sqlConnection);
-
-            int max = 0;
-
-            object obj = command.ExecuteScalar();
-
-            if (obj != DBNull.Value)
-            {
-                max = Convert.ToInt32(command.ExecuteScalar());
-            }
-
-            sqlConnection.Close();
+            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + defaultSettings.dataBase, mySqlConnection);
+            mySqlConnection.Open();
+            command.ExecuteNonQuery();
+            mySqlConnection.Close();
         }
 
         public int GetNum(int simple)
         {
-            sqlConnection = new SqlConnection(defaultSettings.connectionString);
-
-            sqlConnection.Open();
-
-            SqlCommand command = new SqlCommand("SELECT Num FROM [Numbers1] WHERE Simple=" + simple, sqlConnection);
-
-            int num = 0;
-
-            object obj = command.ExecuteScalar();
-
-            if (obj != DBNull.Value)
-            {
-                num = Convert.ToInt32(command.ExecuteScalar());
-            }
-
-            sqlConnection.Close();
-
-            return num;
+            return SelectExecuteScalar("id", "Simple=" + simple);
         }
 
 

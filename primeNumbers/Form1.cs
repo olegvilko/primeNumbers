@@ -8,21 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
+using System.Threading;
 
 namespace primeNumbers
 {
     public partial class Simple : Form
     {
-        DefaultSettings defaultSettings;
+      //  DefaultSettings defaultSettings;
 
         Language language;
 
         Sql sql;
 
+        Maths maths;
+
+       // BackgroundWorker background;
+
         //       SqlConnection sqlConnection;
 
         void ApplyLanguage()
         {
+            this.Text = language.name.nameProject;
             FileToolStripMenuItem.Text = language.name.file;
             HelpToolStripMenuItem.Text = language.name.help;
             StartToolStripMenuItem.Text = language.name.start;
@@ -30,23 +37,34 @@ namespace primeNumbers
             getToolStripMenuItem.Text = language.name.get;
             toolStripStatusLabel1.Text = language.name.maxNum;
             toolStripStatusLabel3.Text = language.name.maxSimple;
-            this.Text = language.name.nameProject;
             languageToolStripMenuItem.Text = language.name.language;
             clearDataBaseToolStripMenuItem.Text = language.name.clearDataBase;
             pathToolStripMenuItem.Text = language.name.pathDataBase;
+            exitToolStripMenuItem.Text = language.name.exit;
+            toolStripMenuItem1.Text = language.name.delay;
+            applyToolStripMenuItem1.Text = language.name.applay;
+            applyToolStripMenuItem.Text = language.name.applay;
+
+            //
+            toolStripTextBox1.Text = sql.defaultSettings.connectionString;
+            toolStripTextBox2.Text = sql.defaultSettings.threadSleep.ToString();
         }
 
         void StartOptions()
         {
-            defaultSettings = new DefaultSettings();
+            DefaultSettings defaultSettings = new DefaultSettings();
 
             language = new Language(defaultSettings.language);
 
-            ApplyLanguage();
-
             sql = new Sql();
 
-            MaxNumber();
+            ApplyLanguage();
+
+           
+
+            maths = new Maths();
+
+            MaxId();
 
             MaxSimple();
         }
@@ -62,69 +80,59 @@ namespace primeNumbers
 
         }
 
-        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (sql.sqlConnection != null && sql.sqlConnection.State != ConnectionState.Closed)
-                sql.sqlConnection.Close();
+            if (sql.mySqlConnection != null && sql.mySqlConnection.State != ConnectionState.Closed)
+                sql.mySqlConnection.Close();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (sql.sqlConnection != null && sql.sqlConnection.State != ConnectionState.Closed)
-                sql.sqlConnection.Close();
+            if (sql.mySqlConnection != null && sql.mySqlConnection.State != ConnectionState.Closed)
+                sql.mySqlConnection.Close();
         }
 
-        private async void ToolStripMenuItemStart_Click(object sender, EventArgs e)
+        void NextSimple(int times)
+        {
+            if (StartToolStripMenuItem.Text == language.name.stop)
+            {
+                int id = sql.GetMaxId() + 1;
+                int simple = sql.GetMaxSimple();
+
+                while (StartToolStripMenuItem.Text == language.name.stop)
+                {
+                    if (maths.CheckSimple(id))
+                    {
+                        sql.InsertSimple((++simple).ToString());
+                    }
+                    else
+                    {
+                        sql.InsertSimple("");
+                    }
+                    id++;
+                    
+                    Thread.Sleep(sql.defaultSettings.threadSleep);
+                }
+            }
+        }
+
+        private void ToolStripMenuItemStart_Click(object sender, EventArgs e)
         {
             if (StartToolStripMenuItem.Text == language.name.start)
             {
                 StartToolStripMenuItem.Text = language.name.stop;
+
+                backgroundWorker1.RunWorkerAsync();
+            
             }
             else
             {
                 StartToolStripMenuItem.Text = language.name.start;
+
             }
 
-            if (StartToolStripMenuItem.Text == language.name.stop)
-            {
-                int num = sql.GetMaxNum() + 1;
-                int simple = sql.GetMaxSimple();
 
-                sql.sqlConnection = new SqlConnection(defaultSettings.connectionString);
 
-                await sql.sqlConnection.OpenAsync();
-
-                SqlCommand command;
-
-                while (StartToolStripMenuItem.Text == language.name.stop)
-                {
-                    bool numSimple = true;
-                    for (int i = 2; i < num; i++) {
-
-                        command = new SqlCommand("SELECT Num FROM [Numbers1] WHERE Simple=" + i, sql.sqlConnection);
-
-                        if ((double)num/i==num/i)
-                        {
-                            numSimple = false;
-                            break;
-                        }
-                    }
-
-                    
-                        command = new SqlCommand("INSERT INTO [Numbers1] (Simple)VALUES (@Simple)", sql.sqlConnection);
-                    if (numSimple == true)
-                    {
-                        command.Parameters.AddWithValue("Simple", simple);
-                        simple++;
-                    } else
-                    {
-                        command.Parameters.AddWithValue("Simple", "");
-                    }
-                        await command.ExecuteNonQueryAsync();
-                    
-                    num++;
-                }
-            }
         }
 
         private void englishToolStripMenuItem_Click(object sender, EventArgs e)
@@ -141,43 +149,22 @@ namespace primeNumbers
             ApplyLanguage();
         }
 
-        private async void getToolStripMenuItem_Click(object sender, EventArgs e)
+        private void getToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listBox1.Items.Clear();
 
-            sql.sqlConnection = new SqlConnection(defaultSettings.connectionString);
+            List<object[]> list = sql.SelectReader("*");
 
-            await sql.sqlConnection.OpenAsync();
+            for (int i = 0; i < list.Count; i++)
+                listBox1.Items.Add(list[i][(int)Sql.Table.id].ToString() + " " + list[i][(int)Sql.Table.simple].ToString());
 
-            SqlCommand command = new SqlCommand("SELECT * FROM [Numbers1]", sql.sqlConnection);
-
-            try
-            {
-                sql.sqlReader = await command.ExecuteReaderAsync();
-
-                while (await sql.sqlReader.ReadAsync())
-                {
-                    listBox1.Items.Add(Convert.ToString(sql.sqlReader["Num"]) + "      " + Convert.ToString(sql.sqlReader["Simple"]));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (sql.sqlReader != null)
-                    sql.sqlReader.Close();
-            }
-
-            MaxNumber();
+            MaxId();
             MaxSimple();
-          //  toolStripStatusLabel1.Text = Convert.ToString(sql.GetMaxNum());
         }
 
-        void MaxNumber()
+        void MaxId()
         {
-            toolStripStatusLabel2.Text= Convert.ToString(sql.GetMaxNum());
+            toolStripStatusLabel2.Text = Convert.ToString(sql.GetMaxId());
         }
 
         void MaxSimple()
@@ -190,5 +177,70 @@ namespace primeNumbers
             sql.ClearDatabase();
         }
 
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (StartToolStripMenuItem.Text == language.name.stop)
+            {
+                int id = sql.GetMaxId() + 1;
+                int simple = sql.GetMaxSimple();
+
+                while (StartToolStripMenuItem.Text == language.name.stop)
+                {
+                    if (maths.CheckSimple(id))
+                    {
+                        sql.InsertSimple((++simple).ToString());
+                    }
+                    else
+                    {
+                        sql.InsertSimple("");
+                    }
+                    id++;
+
+                    backgroundWorker1.ReportProgress(id);
+
+                    Thread.Sleep(sql.defaultSettings.threadSleep);
+                }
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            toolStripStatusLabel2.Text = e.ProgressPercentage.ToString();
+            MaxSimple();
+        }
+
+        private void applyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            sql.defaultSettings.connectionString = toolStripTextBox1.Text;
+            sql.Connect();
+        }
+
+        private void applyToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            sql.defaultSettings.threadSleep = Convert.ToInt32(toolStripTextBox2.Text);
+        }
+
+        private void toolStripTextBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8) 
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void toolStripTextBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

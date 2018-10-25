@@ -10,16 +10,16 @@ namespace primeNumbers
 {
     class Maths
     {
-        public int[] arraySimples;
-
-        public void SetArraySimples()
+        public bool CheckSimple(int id)
         {
-
-        }
-
-        public void NewNumber(int num)
-        {
-
+            for (int i = 2; i < id/2+1; i++)
+            {
+                if ((double)id / i == id / i)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
