@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,14 +47,19 @@
             this.applyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
+            this.applyToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.message = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timeToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timeCounter = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -83,7 +89,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -135,7 +141,7 @@
             this.русскийToolStripMenuItem.Name = "русскийToolStripMenuItem";
             this.русскийToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.русскийToolStripMenuItem.Text = "Русский";
-            this.русскийToolStripMenuItem.Click += new System.EventHandler(this.русскийToolStripMenuItem_Click);
+            this.русскийToolStripMenuItem.Click += new System.EventHandler(this.ruToolStripMenuItem_Click);
             // 
             // clearDataBaseToolStripMenuItem
             // 
@@ -187,23 +193,32 @@
             this.applyToolStripMenuItem1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.applyToolStripMenuItem1.BackColor = System.Drawing.SystemColors.Control;
             this.applyToolStripMenuItem1.Name = "applyToolStripMenuItem1";
-            this.applyToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.applyToolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
             this.applyToolStripMenuItem1.Text = "Apply";
             this.applyToolStripMenuItem1.Click += new System.EventHandler(this.applyToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox3});
+            this.toolStripTextBox3,
+            this.applyToolStripMenuItem2});
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Count to";
             // 
             // toolStripTextBox3
             // 
+            this.toolStripTextBox3.BackColor = System.Drawing.SystemColors.Info;
             this.toolStripTextBox3.Name = "toolStripTextBox3";
             this.toolStripTextBox3.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox3_KeyPress);
+            // 
+            // applyToolStripMenuItem2
+            // 
+            this.applyToolStripMenuItem2.Name = "applyToolStripMenuItem2";
+            this.applyToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.applyToolStripMenuItem2.Text = "Apply";
+            this.applyToolStripMenuItem2.Click += new System.EventHandler(this.applyToolStripMenuItem2_Click);
             // 
             // HelpToolStripMenuItem
             // 
@@ -217,7 +232,10 @@
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
-            this.toolStripStatusLabel4});
+            this.toolStripStatusLabel4,
+            this.timeToolStripStatusLabel,
+            this.timeCounter,
+            this.message});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
@@ -242,11 +260,28 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
+            // message
+            // 
+            this.message.Name = "message";
+            this.message.Size = new System.Drawing.Size(53, 17);
+            this.message.Text = "message";
+            // 
+            // timeToolStripStatusLabel
+            // 
+            this.timeToolStripStatusLabel.Name = "timeToolStripStatusLabel";
+            this.timeToolStripStatusLabel.Size = new System.Drawing.Size(37, 17);
+            this.timeToolStripStatusLabel.Text = "Time:";
+            // 
+            // timeCounter
+            // 
+            this.timeCounter.Name = "timeCounter";
+            this.timeCounter.Size = new System.Drawing.Size(0, 17);
+            // 
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel4.Text = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(42, 17);
+            this.toolStripStatusLabel4.Text = "simple";
             // 
             // listBox1
             // 
@@ -313,6 +348,11 @@
         private System.Windows.Forms.ToolStripMenuItem applyToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox3;
+        private System.Windows.Forms.ToolStripStatusLabel message;
+        private System.Windows.Forms.ToolStripMenuItem applyToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripStatusLabel timeToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel timeCounter;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

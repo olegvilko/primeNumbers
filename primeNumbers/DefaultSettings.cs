@@ -8,7 +8,7 @@
         // Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;
         public string connectionString = "Server=192.168.10.226;Database=simple;Uid=simple;Pwd=mYUXLmSmqxd2F6Iu";
         public string typeBase = "MySql";
-        public int threadSleep = 1000;
+        public int threadSleep = 0;
         public int countTo = 1000;
     }
 }

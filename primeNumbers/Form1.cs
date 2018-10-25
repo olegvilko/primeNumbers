@@ -10,12 +10,13 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using System.Threading;
+using System.Diagnostics;
 
 namespace primeNumbers
 {
     public partial class Simple : Form
     {
-      //  DefaultSettings defaultSettings;
+        //  DefaultSettings defaultSettings;
 
         Language language;
 
@@ -23,7 +24,9 @@ namespace primeNumbers
 
         Maths maths;
 
-       // BackgroundWorker background;
+        Stopwatch stopWatch;
+
+        // BackgroundWorker background;
 
         //       SqlConnection sqlConnection;
 
@@ -42,12 +45,15 @@ namespace primeNumbers
             pathToolStripMenuItem.Text = language.name.pathDataBase;
             exitToolStripMenuItem.Text = language.name.exit;
             toolStripMenuItem1.Text = language.name.delay;
-            applyToolStripMenuItem1.Text = language.name.applay;
-            applyToolStripMenuItem.Text = language.name.applay;
-
+            applyToolStripMenuItem.Text = language.name.apply;
+            applyToolStripMenuItem1.Text = language.name.apply;
+            applyToolStripMenuItem2.Text = language.name.apply;
+            toolStripMenuItem2.Text = language.name.countTo;
+            timeToolStripStatusLabel.Text = language.name.time;
             //
             toolStripTextBox1.Text = sql.defaultSettings.connectionString;
             toolStripTextBox2.Text = sql.defaultSettings.threadSleep.ToString();
+            toolStripTextBox3.Text = sql.defaultSettings.countTo.ToString();
         }
 
         void StartOptions()
@@ -60,7 +66,7 @@ namespace primeNumbers
 
             ApplyLanguage();
 
-           
+
 
             maths = new Maths();
 
@@ -84,6 +90,8 @@ namespace primeNumbers
         {
             if (sql.mySqlConnection != null && sql.mySqlConnection.State != ConnectionState.Closed)
                 sql.mySqlConnection.Close();
+            Environment.Exit(0);
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -92,38 +100,16 @@ namespace primeNumbers
                 sql.mySqlConnection.Close();
         }
 
-        void NextSimple(int times)
-        {
-            if (StartToolStripMenuItem.Text == language.name.stop)
-            {
-                int id = sql.GetMaxId() + 1;
-                int simple = sql.GetMaxSimple();
-
-                while (StartToolStripMenuItem.Text == language.name.stop)
-                {
-                    if (maths.CheckSimple(id))
-                    {
-                        sql.InsertSimple((++simple).ToString());
-                    }
-                    else
-                    {
-                        sql.InsertSimple("");
-                    }
-                    id++;
-                    
-                    Thread.Sleep(sql.defaultSettings.threadSleep);
-                }
-            }
-        }
-
         private void ToolStripMenuItemStart_Click(object sender, EventArgs e)
         {
             if (StartToolStripMenuItem.Text == language.name.start)
             {
                 StartToolStripMenuItem.Text = language.name.stop;
 
+                stopWatch = new Stopwatch();
+                stopWatch.Start();
                 backgroundWorker1.RunWorkerAsync();
-            
+
             }
             else
             {
@@ -142,7 +128,7 @@ namespace primeNumbers
             ApplyLanguage();
         }
 
-        private void русскийToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ruToolStripMenuItem_Click(object sender, EventArgs e)
         {
             language = new Language(language.ru);
 
@@ -174,13 +160,12 @@ namespace primeNumbers
 
         private void clearDataBaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            sql.ClearDatabase();
+            DialogResult result = MessageBox.Show(language.name.clearBaseCompleteTheProcess, language.name.clearBaseConfirmAction, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+                sql.ClearDatabase();
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
 
-        }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -191,6 +176,12 @@ namespace primeNumbers
 
                 while (StartToolStripMenuItem.Text == language.name.stop)
                 {
+                    if (id > sql.defaultSettings.countTo)
+                    {
+                        backgroundWorker1.ReportProgress(id - 1);
+
+                        break;
+                    }
                     if (maths.CheckSimple(id))
                     {
                         sql.InsertSimple((++simple).ToString());
@@ -210,8 +201,20 @@ namespace primeNumbers
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+
+            timeCounter.Text = stopWatch.Elapsed.ToString();
             toolStripStatusLabel2.Text = e.ProgressPercentage.ToString();
             MaxSimple();
+            if (Convert.ToInt32(e.ProgressPercentage) >= sql.defaultSettings.countTo)
+            {
+                message.Text = language.name.logCountTo + sql.defaultSettings.countTo.ToString();
+                StartToolStripMenuItem.Text = language.name.start;
+            }
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            stopWatch.Stop();
         }
 
         private void applyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -228,7 +231,7 @@ namespace primeNumbers
         private void toolStripTextBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
-            if (!Char.IsDigit(number) && number != 8) 
+            if (!Char.IsDigit(number) && number != 8)
             {
                 e.Handled = true;
             }
@@ -241,6 +244,11 @@ namespace primeNumbers
             {
                 e.Handled = true;
             }
+        }
+
+        private void applyToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            sql.defaultSettings.countTo = Convert.ToInt32(toolStripTextBox3.Text);
         }
     }
 }

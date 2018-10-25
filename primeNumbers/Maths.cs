@@ -12,9 +12,15 @@ namespace primeNumbers
     {
         public bool CheckSimple(int id)
         {
-            for (int i = 2; i < id/2+1; i++)
+            int max;
+            for (int i = 2; i <= (max=id/i); i++)
             {
-                if ((double)id / i == id / i)
+                //int max = id / i;
+                //if (i>max)
+                //{
+                //    return true;
+                //}
+                if ((double)id / i == max)
                 {
                     return false;
                 }

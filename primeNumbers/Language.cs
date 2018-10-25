@@ -31,7 +31,12 @@ namespace primeNumbers
             public string pathDataBase;
             public string exit;
             public string delay;
-            public string applay;
+            public string apply;
+            public string logCountTo;
+            public string countTo;
+            public string clearBaseConfirmAction;
+            public string clearBaseCompleteTheProcess;
+            public string time;
         }
 
         public Language(string lang)
@@ -58,16 +63,21 @@ namespace primeNumbers
             name.settings = "Опции";
             name.help = "Справка";
             name.get = "Вывести";
-            name.maxNum = "Последнее число: ";
-            name.maxSimple = "Найдено простых чисел: ";
+            name.maxNum = "Последнее число:";
+            name.maxSimple = "Найдено простых чисел:";
             name.nameProject = "Простые числа";
             name.language = "Язык";
-            name.clearDataBase = "Очистить базу";
+            name.clearDataBase = "Очистить таблицу";
             name.pathDataBase = "Путь к базе данных";
             name.exit = "Выход";
             name.delay = "Задержка";
-            name.applay = "Применить";
-            
+            name.apply = "Применить";
+            name.countTo = "Считать до";
+            name.clearBaseConfirmAction = "Подтвердите действие";
+            name.clearBaseCompleteTheProcess = "Очистить таблицу?";
+            name.time = "Время";
+            //
+            name.logCountTo = "Достигнут предел считать до ";
         }
 
         public void En()
@@ -82,11 +92,17 @@ namespace primeNumbers
             name.maxSimple = "Found prime numbers: ";
             name.nameProject = "Prime numbers";
             name.language = "Language";
-            name.clearDataBase = "Clear DataBase";
+            name.clearDataBase = "Clear table";
             name.pathDataBase = "Path DataBase";
             name.exit = "Exit";
             name.delay = "Delay";
-            name.applay = "Apply";
+            name.apply = "Apply";
+            name.countTo = "Count to";
+            name.clearBaseConfirmAction = "Confirm action";
+            name.clearBaseCompleteTheProcess = "Clear table?";
+            name.time = "Time";
+            //
+            name.logCountTo = "Limit reached count to ";
         }
     }
 }
