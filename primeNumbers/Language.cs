@@ -37,6 +37,11 @@ namespace primeNumbers
             public string clearBaseConfirmAction;
             public string clearBaseCompleteTheProcess;
             public string time;
+            public string saveBackup;
+            public string loadBackup;
+            public string methodCheck;
+            public string methodCheckSimple;
+            public string methodCheckByTable;
         }
 
         public Language(string lang)
@@ -76,6 +81,11 @@ namespace primeNumbers
             name.clearBaseConfirmAction = "Подтвердите действие";
             name.clearBaseCompleteTheProcess = "Очистить таблицу?";
             name.time = "Время";
+            name.saveBackup = "Сохранить";
+            name.loadBackup = "Загрузить";
+            name.methodCheck = "Метод проверки";
+            name.methodCheckSimple = "Простая";
+            name.methodCheckByTable = "По таблице";
             //
             name.logCountTo = "Достигнут предел считать до ";
         }
@@ -101,6 +111,11 @@ namespace primeNumbers
             name.clearBaseConfirmAction = "Confirm action";
             name.clearBaseCompleteTheProcess = "Clear table?";
             name.time = "Time";
+            name.loadBackup = "Load";
+            name.saveBackup = "Save";
+            name.methodCheck = "Method check";
+            name.methodCheckSimple = "Simple";
+            name.methodCheckByTable = "By table";
             //
             name.logCountTo = "Limit reached count to ";
         }

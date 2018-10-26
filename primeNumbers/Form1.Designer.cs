@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,13 +55,16 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.message = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timeToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.timeCounter = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.message = new System.Windows.Forms.ToolStripStatusLabel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.methodCheckToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.simpleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.byTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -81,10 +86,26 @@
             // FileToolStripMenuItem
             // 
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveBackupToolStripMenuItem,
+            this.loadBackupToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.FileToolStripMenuItem.Text = "File";
+            // 
+            // saveBackupToolStripMenuItem
+            // 
+            this.saveBackupToolStripMenuItem.Name = "saveBackupToolStripMenuItem";
+            this.saveBackupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveBackupToolStripMenuItem.Text = "Save";
+            this.saveBackupToolStripMenuItem.Click += new System.EventHandler(this.saveBackupToolStripMenuItem_Click);
+            // 
+            // loadBackupToolStripMenuItem
+            // 
+            this.loadBackupToolStripMenuItem.Name = "loadBackupToolStripMenuItem";
+            this.loadBackupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadBackupToolStripMenuItem.Text = "Load";
+            this.loadBackupToolStripMenuItem.Click += new System.EventHandler(this.loadBackupToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -115,7 +136,8 @@
             this.clearDataBaseToolStripMenuItem,
             this.pathToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem2,
+            this.methodCheckToolStripMenuItem});
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
             this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.SettingsToolStripMenuItem.Text = "Settings";
@@ -126,7 +148,7 @@
             this.englishToolStripMenuItem,
             this.русскийToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.languageToolStripMenuItem.Text = "Language";
             // 
             // englishToolStripMenuItem
@@ -146,7 +168,7 @@
             // clearDataBaseToolStripMenuItem
             // 
             this.clearDataBaseToolStripMenuItem.Name = "clearDataBaseToolStripMenuItem";
-            this.clearDataBaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearDataBaseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.clearDataBaseToolStripMenuItem.Text = "Clear DataBase";
             this.clearDataBaseToolStripMenuItem.Click += new System.EventHandler(this.clearDataBaseToolStripMenuItem_Click);
             // 
@@ -156,7 +178,7 @@
             this.toolStripTextBox1,
             this.applyToolStripMenuItem});
             this.pathToolStripMenuItem.Name = "pathToolStripMenuItem";
-            this.pathToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pathToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pathToolStripMenuItem.Text = "Path";
             // 
             // toolStripTextBox1
@@ -178,7 +200,7 @@
             this.toolStripTextBox2,
             this.applyToolStripMenuItem1});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem1.Text = "Delay";
             // 
             // toolStripTextBox2
@@ -203,7 +225,7 @@
             this.toolStripTextBox3,
             this.applyToolStripMenuItem2});
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem2.Text = "Count to";
             // 
             // toolStripTextBox3
@@ -216,7 +238,7 @@
             // applyToolStripMenuItem2
             // 
             this.applyToolStripMenuItem2.Name = "applyToolStripMenuItem2";
-            this.applyToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.applyToolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
             this.applyToolStripMenuItem2.Text = "Apply";
             this.applyToolStripMenuItem2.Click += new System.EventHandler(this.applyToolStripMenuItem2_Click);
             // 
@@ -260,11 +282,11 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
-            // message
+            // toolStripStatusLabel4
             // 
-            this.message.Name = "message";
-            this.message.Size = new System.Drawing.Size(53, 17);
-            this.message.Text = "message";
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(42, 17);
+            this.toolStripStatusLabel4.Text = "simple";
             // 
             // timeToolStripStatusLabel
             // 
@@ -277,11 +299,11 @@
             this.timeCounter.Name = "timeCounter";
             this.timeCounter.Size = new System.Drawing.Size(0, 17);
             // 
-            // toolStripStatusLabel4
+            // message
             // 
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(42, 17);
-            this.toolStripStatusLabel4.Text = "simple";
+            this.message.Name = "message";
+            this.message.Size = new System.Drawing.Size(53, 17);
+            this.message.Text = "message";
             // 
             // listBox1
             // 
@@ -298,6 +320,29 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // methodCheckToolStripMenuItem
+            // 
+            this.methodCheckToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.simpleToolStripMenuItem,
+            this.byTableToolStripMenuItem});
+            this.methodCheckToolStripMenuItem.Name = "methodCheckToolStripMenuItem";
+            this.methodCheckToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.methodCheckToolStripMenuItem.Text = "Method check";
+            // 
+            // simpleToolStripMenuItem
+            // 
+            this.simpleToolStripMenuItem.Name = "simpleToolStripMenuItem";
+            this.simpleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.simpleToolStripMenuItem.Text = "Simple";
+            this.simpleToolStripMenuItem.Click += new System.EventHandler(this.simpleToolStripMenuItem_Click);
+            // 
+            // byTableToolStripMenuItem
+            // 
+            this.byTableToolStripMenuItem.Name = "byTableToolStripMenuItem";
+            this.byTableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.byTableToolStripMenuItem.Text = "By table";
+            this.byTableToolStripMenuItem.Click += new System.EventHandler(this.byTableToolStripMenuItem_Click);
             // 
             // Simple
             // 
@@ -353,6 +398,11 @@
         private System.Windows.Forms.ToolStripStatusLabel timeToolStripStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel timeCounter;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem saveBackupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadBackupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem methodCheckToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem simpleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem byTableToolStripMenuItem;
     }
 }
 

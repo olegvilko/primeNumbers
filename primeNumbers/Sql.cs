@@ -13,7 +13,6 @@ namespace primeNumbers
 {
     class Sql
     {
-
         public MySqlConnection mySqlConnection;
 
         public DefaultSettings defaultSettings;
@@ -28,46 +27,67 @@ namespace primeNumbers
         {
             defaultSettings = new DefaultSettings();
 
-            Connect();
+            NewConnection();           
         }
 
-        public void Connect()
+        public void NewConnection()
         {
-            
-
             mySqlConnection = new MySqlConnection(defaultSettings.connectionString);
+        }
 
-            //       mySqlConnection.Open();
+        void ConnectionOpen()
+        {
+            try
+            {
+                mySqlConnection.Open();
+            }
+            catch
+            {
+
+            }
+        }
+
+        void ConnectionClose()
+        {
+            try
+            {
+                mySqlConnection.Close();
+            }
+            catch
+            {
+
+            }
         }
 
         int SelectExecuteScalar(string str)
         {
             MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase, mySqlConnection);
-            mySqlConnection.Open();
+
+            ConnectionOpen();
+            //mySqlConnection.Open();
             object obj = command.ExecuteScalar();
-            mySqlConnection.Close();
+            ConnectionClose();
+
             if (obj != DBNull.Value)
             {
-
                 return Convert.ToInt32(obj);
             }
-
             return 0;
-
         }
 
         int SelectExecuteScalar(string str, string where)
         {
             MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase + " WHERE " + where, mySqlConnection);
+            ConnectionOpen();
             object obj = command.ExecuteScalar();
+            ConnectionClose();
+
             if (obj != DBNull.Value)
             {
                 return Convert.ToInt32(obj);
             }
             return 0;
         }
-
-
 
         public async void InsertSimple(string simple)
         {
@@ -83,7 +103,7 @@ namespace primeNumbers
         public List<object[]> SelectReader(string str)
         {
             MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase, mySqlConnection);
-            mySqlConnection.Open();
+            ConnectionOpen();
             MySqlDataReader reader = command.ExecuteReader();
 
             List<object[]> list = new List<object[]>();
@@ -94,9 +114,7 @@ namespace primeNumbers
                 reader.GetValues(row);
                 list.Add(row);
             }
-            //   object[][] ret = new object[list.Count][];
-            //    list.CopyTo(ret);
-            mySqlConnection.Close();
+            ConnectionClose();
             return list;
         }
 
@@ -110,19 +128,33 @@ namespace primeNumbers
             return SelectExecuteScalar("MAX(Simple)");
         }
 
-        public void ClearDatabase()
-        {
-            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + defaultSettings.dataBase, mySqlConnection);
-            mySqlConnection.Open();
-            command.ExecuteNonQuery();
-            mySqlConnection.Close();
-        }
-
         public int GetNum(int simple)
         {
             return SelectExecuteScalar("id", "Simple=" + simple);
         }
 
+        //____________________________________________________________________________________
+        public void ClearDatabase()
+        {
+            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + defaultSettings.dataBase, mySqlConnection);
+            ConnectionOpen();
+            command.ExecuteNonQuery();
+            ConnectionClose();
+        }
 
+        public void CopyTable(string table, string tableTo)
+        {
+            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " +tableTo, mySqlConnection);
+
+            ConnectionOpen();
+
+            command.ExecuteNonQuery();
+
+            command = new MySqlCommand("INSERT INTO "+tableTo+ " SELECT * FROM "+table, mySqlConnection);
+
+            command.ExecuteNonQuery();
+
+            ConnectionClose();
+        }
     }
 }

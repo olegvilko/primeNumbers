@@ -24,11 +24,11 @@ namespace primeNumbers
 
         Maths maths;
 
+        delegate bool CheckSimpleMethod(int id);
+
+        CheckSimpleMethod checkSimpleMethod;
+
         Stopwatch stopWatch;
-
-        // BackgroundWorker background;
-
-        //       SqlConnection sqlConnection;
 
         void ApplyLanguage()
         {
@@ -50,6 +50,12 @@ namespace primeNumbers
             applyToolStripMenuItem2.Text = language.name.apply;
             toolStripMenuItem2.Text = language.name.countTo;
             timeToolStripStatusLabel.Text = language.name.time;
+            saveBackupToolStripMenuItem.Text = language.name.saveBackup;
+            loadBackupToolStripMenuItem.Text = language.name.loadBackup;
+            methodCheckToolStripMenuItem.Text = language.name.methodCheck;
+            simpleToolStripMenuItem.Text = language.name.methodCheckSimple;
+            byTableToolStripMenuItem.Text = language.name.methodCheckByTable;
+
             //
             toolStripTextBox1.Text = sql.defaultSettings.connectionString;
             toolStripTextBox2.Text = sql.defaultSettings.threadSleep.ToString();
@@ -66,13 +72,13 @@ namespace primeNumbers
 
             ApplyLanguage();
 
-
-
             maths = new Maths();
 
             MaxId();
 
             MaxSimple();
+
+            SimpleMethod();
         }
 
         public Simple()
@@ -109,16 +115,12 @@ namespace primeNumbers
                 stopWatch = new Stopwatch();
                 stopWatch.Start();
                 backgroundWorker1.RunWorkerAsync();
-
             }
             else
             {
                 StartToolStripMenuItem.Text = language.name.start;
 
             }
-
-
-
         }
 
         private void englishToolStripMenuItem_Click(object sender, EventArgs e)
@@ -165,14 +167,13 @@ namespace primeNumbers
                 sql.ClearDatabase();
         }
 
-
-
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             if (StartToolStripMenuItem.Text == language.name.stop)
             {
                 int id = sql.GetMaxId() + 1;
                 int simple = sql.GetMaxSimple();
+                int counter = id;
 
                 while (StartToolStripMenuItem.Text == language.name.stop)
                 {
@@ -182,7 +183,11 @@ namespace primeNumbers
 
                         break;
                     }
-                    if (maths.CheckSimple(id))
+
+                 //   CheckSimpleMethod cs = new CheckSimpleMethod(maths.CheckSimple);
+
+                    //if (maths.CheckSimple(id))
+                    if (checkSimpleMethod(id))
                     {
                         sql.InsertSimple((++simple).ToString());
                     }
@@ -192,7 +197,11 @@ namespace primeNumbers
                     }
                     id++;
 
-                    backgroundWorker1.ReportProgress(id);
+                    if (id - counter >= sql.defaultSettings.timeOutput)
+                    {
+                        backgroundWorker1.ReportProgress(id);
+                        counter = id;
+                    }
 
                     Thread.Sleep(sql.defaultSettings.threadSleep);
                 }
@@ -220,7 +229,7 @@ namespace primeNumbers
         private void applyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             sql.defaultSettings.connectionString = toolStripTextBox1.Text;
-            sql.Connect();
+            sql.NewConnection();
         }
 
         private void applyToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -249,6 +258,46 @@ namespace primeNumbers
         private void applyToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             sql.defaultSettings.countTo = Convert.ToInt32(toolStripTextBox3.Text);
+        }
+
+        private void saveBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            sql.CopyTable(sql.defaultSettings.table, sql.defaultSettings.tableBackup);
+        }
+
+        private void loadBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            sql.CopyTable(sql.defaultSettings.tableBackup, sql.defaultSettings.table);
+        }
+
+        void MethodKeyColorClear()
+        {
+            simpleToolStripMenuItem.BackColor = SystemColors.Control;
+            byTableToolStripMenuItem.BackColor = SystemColors.Control;
+        }
+
+        void SimpleMethod()
+        {
+            MethodKeyColorClear();
+            simpleToolStripMenuItem.BackColor = SystemColors.ControlLight;
+            checkSimpleMethod = new CheckSimpleMethod(maths.CheckSimple);
+        }
+
+        void ByTableMethod()
+        {
+            MethodKeyColorClear();
+            byTableToolStripMenuItem.BackColor = SystemColors.ControlLight;
+            checkSimpleMethod = new CheckSimpleMethod(maths.CheckSimpleByTable);
+        }
+
+        private void simpleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SimpleMethod();
+        }
+
+        private void byTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ByTableMethod();
         }
     }
 }
