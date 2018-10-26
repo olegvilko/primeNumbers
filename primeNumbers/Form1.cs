@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
 using System.Threading;
 using System.Diagnostics;
 
@@ -16,8 +11,6 @@ namespace primeNumbers
 {
     public partial class Simple : Form
     {
-        //  DefaultSettings defaultSettings;
-
         Language language;
 
         Sql sql;
@@ -25,10 +18,15 @@ namespace primeNumbers
         Maths maths;
 
         delegate bool CheckSimpleMethod(int id);
-
         CheckSimpleMethod checkSimpleMethod;
 
+        delegate void GetTypeOutput();
+        GetTypeOutput getTypeOutput;
+        
+
         Stopwatch stopWatch;
+
+        Maths.MethodCheck methodCheck;
 
         void ApplyLanguage()
         {
@@ -37,7 +35,7 @@ namespace primeNumbers
             HelpToolStripMenuItem.Text = language.name.help;
             StartToolStripMenuItem.Text = language.name.start;
             SettingsToolStripMenuItem.Text = language.name.settings;
-            getToolStripMenuItem.Text = language.name.get;
+            getToolStripButton1.Text = language.name.get;
             toolStripStatusLabel1.Text = language.name.maxNum;
             toolStripStatusLabel3.Text = language.name.maxSimple;
             languageToolStripMenuItem.Text = language.name.language;
@@ -55,11 +53,22 @@ namespace primeNumbers
             methodCheckToolStripMenuItem.Text = language.name.methodCheck;
             simpleToolStripMenuItem.Text = language.name.methodCheckSimple;
             byTableToolStripMenuItem.Text = language.name.methodCheckByTable;
-
+            byArrayToolStripMenuItem.Text = language.name.methodSimpleArray;
+            getFromToolStripLabel.Text = language.name.getFrom;
+            getToToolStripLabel.Text = language.name.getTo;
+            getTypeToolStripDropDownButton.Text = language.name.getType;
+            oneColumnToolStripMenuItem.Text = language.name.getTypeOneColumn;
             //
+
+        }
+
+        void VariableToForm()
+        {
             toolStripTextBox1.Text = sql.defaultSettings.connectionString;
             toolStripTextBox2.Text = sql.defaultSettings.threadSleep.ToString();
             toolStripTextBox3.Text = sql.defaultSettings.countTo.ToString();
+            getFromToolStripTextBox.Text = sql.defaultSettings.getFrom.ToString();
+            getToToolStripTextBox.Text = sql.defaultSettings.getTo.ToString();
         }
 
         void StartOptions()
@@ -72,13 +81,19 @@ namespace primeNumbers
 
             ApplyLanguage();
 
+            VariableToForm();
+
             maths = new Maths();
 
             MaxId();
 
             MaxSimple();
 
-            SimpleMethod();
+            // SimpleMethod();
+
+            ByArrayMethot();
+            //Maths.MethodCheck methodCheck = Maths.MethodCheck.CheckSimple;
+            getTypeOutput = new GetTypeOutput(GetTypeOneColumn);
         }
 
         public Simple()
@@ -112,9 +127,11 @@ namespace primeNumbers
             {
                 StartToolStripMenuItem.Text = language.name.stop;
 
+
+
                 stopWatch = new Stopwatch();
                 stopWatch.Start();
-                backgroundWorker1.RunWorkerAsync();
+                calculationBackgroundWorker.RunWorkerAsync();
             }
             else
             {
@@ -175,18 +192,20 @@ namespace primeNumbers
                 int simple = sql.GetMaxSimple();
                 int counter = id;
 
+                if (methodCheck == Maths.MethodCheck.CheckSimpleArray)
+                {
+                    maths.AddSimpleToArray();
+                }
+
                 while (StartToolStripMenuItem.Text == language.name.stop)
                 {
                     if (id > sql.defaultSettings.countTo)
                     {
-                        backgroundWorker1.ReportProgress(id - 1);
+                        calculationBackgroundWorker.ReportProgress(id - 1);
 
                         break;
                     }
 
-                 //   CheckSimpleMethod cs = new CheckSimpleMethod(maths.CheckSimple);
-
-                    //if (maths.CheckSimple(id))
                     if (checkSimpleMethod(id))
                     {
                         sql.InsertSimple((++simple).ToString());
@@ -199,7 +218,7 @@ namespace primeNumbers
 
                     if (id - counter >= sql.defaultSettings.timeOutput)
                     {
-                        backgroundWorker1.ReportProgress(id);
+                        calculationBackgroundWorker.ReportProgress(id);
                         counter = id;
                     }
 
@@ -274,6 +293,7 @@ namespace primeNumbers
         {
             simpleToolStripMenuItem.BackColor = SystemColors.Control;
             byTableToolStripMenuItem.BackColor = SystemColors.Control;
+            byArrayToolStripMenuItem.BackColor = SystemColors.Control;
         }
 
         void SimpleMethod()
@@ -281,6 +301,7 @@ namespace primeNumbers
             MethodKeyColorClear();
             simpleToolStripMenuItem.BackColor = SystemColors.ControlLight;
             checkSimpleMethod = new CheckSimpleMethod(maths.CheckSimple);
+            methodCheck = Maths.MethodCheck.CheckSimple;
         }
 
         void ByTableMethod()
@@ -288,6 +309,15 @@ namespace primeNumbers
             MethodKeyColorClear();
             byTableToolStripMenuItem.BackColor = SystemColors.ControlLight;
             checkSimpleMethod = new CheckSimpleMethod(maths.CheckSimpleByTable);
+            methodCheck = Maths.MethodCheck.CheckSimpleByTable;
+        }
+
+        void ByArrayMethot()
+        {
+            MethodKeyColorClear();
+            byArrayToolStripMenuItem.BackColor = SystemColors.ControlLight;
+            checkSimpleMethod = new CheckSimpleMethod(maths.CheckSimpleArray);
+            methodCheck = Maths.MethodCheck.CheckSimpleArray;
         }
 
         private void simpleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -298,6 +328,59 @@ namespace primeNumbers
         private void byTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ByTableMethod();
+        }
+
+        private void byArrayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ByArrayMethot();
+        }
+
+        private void getToolStripButton1_Click(object sender, EventArgs e)
+        {
+            getTypeOutput();
+        }
+
+        void GetTypeOneColumn()
+        {
+            listBox1.Items.Clear();
+
+            List<object[]> list = sql.SelectReader("*");
+
+            int getFrom = Convert.ToInt32(getFromToolStripTextBox.Text);
+            int getTo = Convert.ToInt32(getToToolStripTextBox.Text);
+            int listCount = list.Count;
+
+            if (getFrom > listCount) getFrom = listCount;
+            if (getTo > listCount) getTo = listCount;
+
+            for (int i = getFrom; i < getTo; i++)
+                listBox1.Items.Add(list[i][(int)Sql.Table.id].ToString() + " " + list[i][(int)Sql.Table.simple].ToString());
+
+            MaxId();
+            MaxSimple();
+        }
+
+        private void toolStripTextBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void toolStripTextBox5_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            getTypeOutput = new GetTypeOutput(GetTypeOneColumn);
         }
     }
 }

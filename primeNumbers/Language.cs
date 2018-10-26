@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace primeNumbers
+﻿namespace primeNumbers
 {
     class Language
-    {
-        
+    {        
         public Name name;
 
         public string en = "En";
         public string ru = "Ru";
 
         public struct Name
-        {
-            
+        {         
             public string start;
             public string stop;
             public string file;
@@ -42,22 +34,11 @@ namespace primeNumbers
             public string methodCheck;
             public string methodCheckSimple;
             public string methodCheckByTable;
-        }
-
-        public Language(string lang)
-        {
-            switch (lang)
-            {
-                case "Ru":
-                    Ru();
-                    break;
-                case "En":
-                    En();
-                    break;
-                default:
-                    En();
-                    break;
-            }
+            public string methodSimpleArray;
+            public string getTo;
+            public string getFrom;
+            public string getType;
+            public string getTypeOneColumn;
         }
 
         public void Ru()
@@ -86,6 +67,11 @@ namespace primeNumbers
             name.methodCheck = "Метод проверки";
             name.methodCheckSimple = "Простая";
             name.methodCheckByTable = "По таблице";
+            name.methodSimpleArray = "По массиву";
+            name.getFrom = "от";
+            name.getTo = "до";
+            name.getType = "Тип вывода";
+            name.getTypeOneColumn = "Одна колонка, число и его номер простого числа";
             //
             name.logCountTo = "Достигнут предел считать до ";
         }
@@ -116,8 +102,29 @@ namespace primeNumbers
             name.methodCheck = "Method check";
             name.methodCheckSimple = "Simple";
             name.methodCheckByTable = "By table";
+            name.methodSimpleArray = "By array";
+            name.getFrom = "from";
+            name.getTo = "to";
+            name.getType = "Get type";
+            name.getTypeOneColumn = "One column, number and count prime number";
             //
             name.logCountTo = "Limit reached count to ";
+        }
+
+        public Language(string lang)
+        {
+            switch (lang)
+            {
+                case "Ru":
+                    Ru();
+                    break;
+                case "En":
+                    En();
+                    break;
+                default:
+                    En();
+                    break;
+            }
         }
     }
 }
