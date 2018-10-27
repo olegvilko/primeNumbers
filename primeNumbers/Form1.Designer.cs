@@ -70,9 +70,14 @@
             this.getFromToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.getToToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.getToToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.columnsToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.columnsToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.getTypeToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.oneColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.columnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.FormulaCheckToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.clipBoardToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -352,7 +357,11 @@
             this.getFromToolStripTextBox,
             this.getToToolStripLabel,
             this.getToToolStripTextBox,
-            this.getTypeToolStripDropDownButton});
+            this.columnsToolStripLabel,
+            this.columnsToolStripTextBox,
+            this.getTypeToolStripDropDownButton,
+            this.FormulaCheckToolStripButton,
+            this.clipBoardToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -401,11 +410,24 @@
             this.getToToolStripTextBox.Size = new System.Drawing.Size(100, 25);
             this.getToToolStripTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox5_KeyPress);
             // 
+            // columnsToolStripLabel
+            // 
+            this.columnsToolStripLabel.Name = "columnsToolStripLabel";
+            this.columnsToolStripLabel.Size = new System.Drawing.Size(56, 22);
+            this.columnsToolStripLabel.Text = "columns:";
+            // 
+            // columnsToolStripTextBox
+            // 
+            this.columnsToolStripTextBox.Name = "columnsToolStripTextBox";
+            this.columnsToolStripTextBox.Size = new System.Drawing.Size(100, 25);
+            this.columnsToolStripTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.columnsToolStripTextBox_KeyPress);
+            // 
             // getTypeToolStripDropDownButton
             // 
             this.getTypeToolStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.getTypeToolStripDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.oneColumnToolStripMenuItem});
+            this.oneColumnToolStripMenuItem,
+            this.columnsToolStripMenuItem});
             this.getTypeToolStripDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("getTypeToolStripDropDownButton.Image")));
             this.getTypeToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.getTypeToolStripDropDownButton.Name = "getTypeToolStripDropDownButton";
@@ -419,14 +441,48 @@
             this.oneColumnToolStripMenuItem.Text = "One column, number and count prime number";
             this.oneColumnToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
             // 
+            // columnsToolStripMenuItem
+            // 
+            this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(324, 22);
+            this.columnsToolStripMenuItem.Text = "Columns";
+            this.columnsToolStripMenuItem.Click += new System.EventHandler(this.columnsToolStripMenuItem_Click);
+            // 
             // listBox1
             // 
+            this.listBox1.BackColor = System.Drawing.SystemColors.Menu;
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
+            this.listBox1.ItemHeight = 14;
             this.listBox1.Location = new System.Drawing.Point(0, 49);
             this.listBox1.Name = "listBox1";
+            this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox1.Size = new System.Drawing.Size(800, 379);
             this.listBox1.TabIndex = 6;
+            // 
+            // FormulaCheckToolStripButton
+            // 
+            this.FormulaCheckToolStripButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.FormulaCheckToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FormulaCheckToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("FormulaCheckToolStripButton.Image")));
+            this.FormulaCheckToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FormulaCheckToolStripButton.Name = "FormulaCheckToolStripButton";
+            this.FormulaCheckToolStripButton.Size = new System.Drawing.Size(91, 22);
+            this.FormulaCheckToolStripButton.Text = "Formula Check";
+            this.FormulaCheckToolStripButton.Click += new System.EventHandler(this.FormulaCheckToolStripButton_Click);
+            // 
+            // clipBoardToolStripButton
+            // 
+            this.clipBoardToolStripButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.clipBoardToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.clipBoardToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("clipBoardToolStripButton.Image")));
+            this.clipBoardToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.clipBoardToolStripButton.Name = "clipBoardToolStripButton";
+            this.clipBoardToolStripButton.Size = new System.Drawing.Size(66, 22);
+            this.clipBoardToolStripButton.Text = "Clip Board";
+            this.clipBoardToolStripButton.Click += new System.EventHandler(this.clipBoardToolStripButton_Click);
             // 
             // Simple
             // 
@@ -498,6 +554,11 @@
         private System.Windows.Forms.ToolStripButton getToolStripButton1;
         private System.Windows.Forms.ToolStripDropDownButton getTypeToolStripDropDownButton;
         private System.Windows.Forms.ToolStripMenuItem oneColumnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripLabel columnsToolStripLabel;
+        private System.Windows.Forms.ToolStripTextBox columnsToolStripTextBox;
+        private System.Windows.Forms.ToolStripMenuItem columnsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton FormulaCheckToolStripButton;
+        private System.Windows.Forms.ToolStripButton clipBoardToolStripButton;
     }
 }
 

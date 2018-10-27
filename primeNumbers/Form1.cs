@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
+using System.Linq;
 
 namespace primeNumbers
 {
@@ -17,16 +18,20 @@ namespace primeNumbers
 
         Maths maths;
 
+        Custom custom;
+
         delegate bool CheckSimpleMethod(int id);
         CheckSimpleMethod checkSimpleMethod;
 
-        delegate void GetTypeOutput();
+        delegate void GetTypeOutput(List<object[]> list, int from, int to);
         GetTypeOutput getTypeOutput;
-        
+
 
         Stopwatch stopWatch;
 
         Maths.MethodCheck methodCheck;
+
+        // TableLayoutPanel tableLayoutPanel;
 
         void ApplyLanguage()
         {
@@ -58,6 +63,7 @@ namespace primeNumbers
             getToToolStripLabel.Text = language.name.getTo;
             getTypeToolStripDropDownButton.Text = language.name.getType;
             oneColumnToolStripMenuItem.Text = language.name.getTypeOneColumn;
+            columnsToolStripLabel.Text = language.name.getColumns;
             //
 
         }
@@ -69,6 +75,7 @@ namespace primeNumbers
             toolStripTextBox3.Text = sql.defaultSettings.countTo.ToString();
             getFromToolStripTextBox.Text = sql.defaultSettings.getFrom.ToString();
             getToToolStripTextBox.Text = sql.defaultSettings.getTo.ToString();
+            columnsToolStripTextBox.Text = sql.defaultSettings.getColumns.ToString();
         }
 
         void StartOptions()
@@ -78,6 +85,8 @@ namespace primeNumbers
             language = new Language(defaultSettings.language);
 
             sql = new Sql();
+
+            custom = new Custom();
 
             ApplyLanguage();
 
@@ -93,7 +102,9 @@ namespace primeNumbers
 
             ByArrayMethot();
             //Maths.MethodCheck methodCheck = Maths.MethodCheck.CheckSimple;
-            getTypeOutput = new GetTypeOutput(GetTypeOneColumn);
+            getTypeOutput = new GetTypeOutput(GetTypeColumns);
+
+            //PanelInitialization();
         }
 
         public Simple()
@@ -126,8 +137,6 @@ namespace primeNumbers
             if (StartToolStripMenuItem.Text == language.name.start)
             {
                 StartToolStripMenuItem.Text = language.name.stop;
-
-
 
                 stopWatch = new Stopwatch();
                 stopWatch.Start();
@@ -295,7 +304,7 @@ namespace primeNumbers
             byTableToolStripMenuItem.BackColor = SystemColors.Control;
             byArrayToolStripMenuItem.BackColor = SystemColors.Control;
         }
-
+        #region Methods
         void SimpleMethod()
         {
             MethodKeyColorClear();
@@ -334,27 +343,87 @@ namespace primeNumbers
         {
             ByArrayMethot();
         }
-
+        #endregion
         private void getToolStripButton1_Click(object sender, EventArgs e)
         {
-            getTypeOutput();
+            StartGetNumbersToScreen();
         }
 
-        void GetTypeOneColumn()
+        void GetTypeOneColumn(List<object[]> list, int from, int to)
+        {
+            //   PanelInitialization();
+
+            int column = Convert.ToInt32(columnsToolStripTextBox.Text);
+            //      int j = 0;
+            //        int row = 0;
+            for (int i = from; i < to; i++)
+            {
+
+
+                // listBox1.Items.Add(list[i][(int)Sql.Table.id].ToString() + " " + list[i][(int)Sql.Table.simple].ToString());
+                //  string str = list[i][(int)Sql.Table.id].ToString();
+                //  int simple = (int)list[i][(int)Sql.Table.simple];
+                //Color color;
+                //if (simple != 0)
+                //{
+                //    color = Color.White;
+                //}
+                //else
+                //{
+                //    color = SystemColors.Control;
+                //}
+                //AddToPanel(str, j, row, color);
+                //j++;
+                //if (j > column)
+                //{
+                //    j = 0;
+                //    row += 1;
+                //}
+            }
+        }
+
+        void GetTypeColumns(List<object[]> list, int from, int to)
+        {
+            int columns = Convert.ToInt32(columnsToolStripTextBox.Text);
+
+            for (int j = from; j < to; j += columns)
+            {
+                string str = null;
+                for (int i = j; i < j + columns; i++)
+                {
+                    if (custom.ColumnVisible(i - j))
+                    {
+                        if (i > to) break;
+                        int id = (int)list[i][(int)Sql.Table.id];
+                        int simple = (int)list[i][(int)Sql.Table.simple];
+
+                        string idStr = "";
+                        if (custom.IsVisible(id, simple)) idStr = id.ToString();
+
+                        if (custom.AllotmentString(id, simple)) idStr = maths.AllotmentString(idStr, sql.defaultSettings.allotmentLeft, sql.defaultSettings.AllotmentRigth);
+
+
+                        str += maths.AlignmentString(idStr, sql.defaultSettings.lengthOutput);
+                    }
+                }
+                AddToLisbox(str);
+            }
+        }
+
+        void StartGetNumbersToScreen()
         {
             listBox1.Items.Clear();
 
             List<object[]> list = sql.SelectReader("*");
 
-            int getFrom = Convert.ToInt32(getFromToolStripTextBox.Text);
-            int getTo = Convert.ToInt32(getToToolStripTextBox.Text);
+            int from = Convert.ToInt32(getFromToolStripTextBox.Text);
+            int to = Convert.ToInt32(getToToolStripTextBox.Text);
             int listCount = list.Count;
 
-            if (getFrom > listCount) getFrom = listCount;
-            if (getTo > listCount) getTo = listCount;
+            if (from > listCount) from = listCount;
+            if (to > listCount) to = listCount;
 
-            for (int i = getFrom; i < getTo; i++)
-                listBox1.Items.Add(list[i][(int)Sql.Table.id].ToString() + " " + list[i][(int)Sql.Table.simple].ToString());
+            getTypeOutput(list, from, to);
 
             MaxId();
             MaxSimple();
@@ -378,9 +447,105 @@ namespace primeNumbers
             }
         }
 
+        private void columnsToolStripTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
             getTypeOutput = new GetTypeOutput(GetTypeOneColumn);
+        }
+
+        private void columnsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            getTypeOutput = new GetTypeOutput(GetTypeColumns);
+        }
+
+        #region Lisbox
+        public void AddToLisbox(string str)
+        {
+
+            listBox1.Items.Add(str);
+        }
+
+
+        #endregion
+
+        #region Panel
+        //public void AddToPanel(string str, int column, int row, Color color)
+        //{
+        //    //  panel.Controls.Add(new Label() { Text = str, BackColor = color }, column, row);
+        //    //panel.Controls.Add(new Label() { Text = str, BackColor = color }, column, row);
+        //    // tableLayoutPanel.Controls.Add(new Label() { Text = str, BackColor = color }, column, row);
+        //}
+
+        //void PanelInitialization()
+        //{
+        //    int column = Convert.ToInt32(columnsToolStripTextBox.Text);
+        //    int row = 100;
+        //    panel.ColumnCount = column;
+        //    panel.RowCount = row;
+        //    panel.AutoSize = true;
+        //    //panel.size
+
+        //    for (int i = 0; i < column; i++)
+        //        panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300));
+
+        //    for (int i = 0; i < row; i++)
+        //        panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
+
+        //    //panel.an
+        //    //tableLayoutPanel = new TableLayoutPanel
+        //    //{
+        //    //    Parent = this,
+        //    //    CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset,
+        //    //    AutoSize = true,
+        //    //    AutoSizeMode = AutoSizeMode.GrowAndShrink,
+        //    //    Dock=DockStyle.Fill
+        //    //};
+
+        //    //  tableLayoutPanel.ColumnCount = column;
+        //    //  tableLayoutPanel.RowCount = row;
+
+        //    //  panel.Controls.Add(new Label() { Text = "Street, City, State" }, 1, panel.RowCount - 1);
+        //}
+        #endregion
+
+        #region Message
+        void Message(string mes)
+        {
+            message.Text = mes;
+        }
+
+        void Message(int mes)
+        {
+            message.Text = mes.ToString();
+        }
+        #endregion
+
+        private void FormulaCheckToolStripButton_Click(object sender, EventArgs e)
+        {
+            int from = Convert.ToInt32(getFromToolStripTextBox.Text);
+
+            int to = Convert.ToInt32(getToToolStripTextBox.Text);
+
+            int length = sql.GetMaxId();
+
+            if (from > length) from = length;
+
+            if (to > length) to = length;
+
+            custom.FormulaCheck(from, to, listBox1);
+        }
+
+        private void clipBoardToolStripButton_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(string.Join(Environment.NewLine, listBox1.Items.OfType<string>().ToArray()));
         }
     }
 }

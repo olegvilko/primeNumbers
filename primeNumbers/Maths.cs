@@ -20,6 +20,7 @@ namespace primeNumbers
             sql = new Sql();
         }
 
+        #region Methods
         public bool CheckSimpleByTable(int id)
         {
             int result;
@@ -95,11 +96,43 @@ namespace primeNumbers
                     return false;
                 }
             }
-            //i<arraySimple.Length
-            //    Array.Resize(ref arraySimple, arraySimple.Length + 1);
-            //    arraySimple[arraySimple.Length - 1] = id;
-
-            //return true;
         }
+        #endregion
+
+        #region Strings
+        public string AlignmentString(string str, int count)
+        {
+            while (str.Length < count)
+            {
+                str +=" ";
+            }
+            return str;
+        }
+
+        public string AllotmentString(string str, string left, string rigth)
+        {
+            return left + str + rigth;
+        }
+        #endregion
+
+        //public int[] GetArrayId(int from, int to)
+        //{
+        //    int length = sql.GetMaxId();
+        //    if()
+        //    if (length != 0)
+        //    {
+        //        arraySimple = new int[length];
+        //        for (int i = 0; i < length; i++)
+        //        {
+        //            arraySimple[i] = sql.GetNum(i);
+        //        }
+        //    }
+        //}
+        //public bool FormulaCheck()
+        //{
+        //    int max = sql.GetMaxId();
+        //    for(int i=0;i)
+
+        //}
     }
 }

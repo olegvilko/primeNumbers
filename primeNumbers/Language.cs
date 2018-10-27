@@ -39,6 +39,7 @@
             public string getFrom;
             public string getType;
             public string getTypeOneColumn;
+            public string getColumns;
         }
 
         public void Ru()
@@ -72,6 +73,7 @@
             name.getTo = "до";
             name.getType = "Тип вывода";
             name.getTypeOneColumn = "Одна колонка, число и его номер простого числа";
+            name.getColumns = "колонок:";
             //
             name.logCountTo = "Достигнут предел считать до ";
         }
@@ -107,6 +109,7 @@
             name.getTo = "to";
             name.getType = "Get type";
             name.getTypeOneColumn = "One column, number and count prime number";
+            name.getColumns = "columns:";
             //
             name.logCountTo = "Limit reached count to ";
         }

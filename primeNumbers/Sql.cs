@@ -64,8 +64,9 @@ namespace primeNumbers
             MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase, mySqlConnection);
 
             ConnectionOpen();
-            //mySqlConnection.Open();
+
             object obj = command.ExecuteScalar();
+
             ConnectionClose();
 
             if (obj != DBNull.Value)
@@ -131,6 +132,21 @@ namespace primeNumbers
         public int GetNum(int simple)
         {
             return SelectExecuteScalar("id", "Simple=" + simple);
+        }
+
+        public bool CheckSimple(int id)
+        {
+            if (SelectExecuteScalar("Simple", "id=" + id)!=0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public int GetSimple(int id)
+        {
+            return SelectExecuteScalar("Simple", "id=" + id);           
         }
 
         //____________________________________________________________________________________
