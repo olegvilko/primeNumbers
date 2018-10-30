@@ -1,21 +1,14 @@
-﻿//using Microsoft.Analytics.Interfaces;
-//using Microsoft.Analytics.Types.Sql;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Data;
-using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using System.Windows.Forms;
+using System.Data;
 
 namespace primeNumbers
 {
-    class Sql
+    public class Sql
     {
-        public MySqlConnection mySqlConnection;
-
-        public DefaultSettings defaultSettings;
+        MySqlConnection mySqlConnection;
 
         public enum Table
         {
@@ -25,14 +18,12 @@ namespace primeNumbers
 
         public Sql()
         {
-            defaultSettings = new DefaultSettings();
-
-            NewConnection();           
+            NewConnection();
         }
 
         public void NewConnection()
         {
-            mySqlConnection = new MySqlConnection(defaultSettings.connectionString);
+            mySqlConnection = new MySqlConnection(DefaultSettings.connectionString);
         }
 
         void ConnectionOpen()
@@ -41,31 +32,40 @@ namespace primeNumbers
             {
                 mySqlConnection.Open();
             }
-            catch
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
         }
 
-        void ConnectionClose()
+        public void ConnectionClose()
         {
             try
             {
                 mySqlConnection.Close();
             }
-            catch
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
         }
 
         int SelectExecuteScalar(string str)
         {
-            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase, mySqlConnection);
+            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
 
             ConnectionOpen();
 
-            object obj = command.ExecuteScalar();
+            object obj = null;
+
+            try
+            {
+                obj = command.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
             ConnectionClose();
 
@@ -78,9 +78,12 @@ namespace primeNumbers
 
         int SelectExecuteScalar(string str, string where)
         {
-            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase + " WHERE " + where, mySqlConnection);
+            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase + " WHERE " + where, mySqlConnection);
+
             ConnectionOpen();
+
             object obj = command.ExecuteScalar();
+
             ConnectionClose();
 
             if (obj != DBNull.Value)
@@ -92,19 +95,32 @@ namespace primeNumbers
 
         public async void InsertSimple(string simple)
         {
-            //  if (mySqlConnection.State == ConnectionState.Closed)
-            MySqlConnection connection = new MySqlConnection(defaultSettings.connectionString);
-            await connection.OpenAsync();
-            MySqlCommand command = new MySqlCommand("INSERT INTO " + defaultSettings.dataBase + " (simple)VALUES (@Simple)", connection);
-            command.Parameters.AddWithValue("simple", simple);
-            await command.ExecuteNonQueryAsync();
-            await connection.CloseAsync();
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(DefaultSettings.connectionString);
+
+                await connection.OpenAsync();
+
+                MySqlCommand command = new MySqlCommand("INSERT INTO " + DefaultSettings.dataBase + " (simple)VALUES (@Simple)", connection);
+
+                command.Parameters.AddWithValue("simple", simple);
+
+                await command.ExecuteNonQueryAsync();
+
+                await connection.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public List<object[]> SelectReader(string str)
         {
-            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + defaultSettings.dataBase, mySqlConnection);
+            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
+
             ConnectionOpen();
+
             MySqlDataReader reader = command.ExecuteReader();
 
             List<object[]> list = new List<object[]>();
@@ -112,10 +128,13 @@ namespace primeNumbers
             foreach (IDataRecord current in reader)
             {
                 object[] row = new object[reader.FieldCount];
+
                 reader.GetValues(row);
+
                 list.Add(row);
             }
             ConnectionClose();
+
             return list;
         }
 
@@ -136,7 +155,7 @@ namespace primeNumbers
 
         public bool CheckSimple(int id)
         {
-            if (SelectExecuteScalar("Simple", "id=" + id)!=0)
+            if (SelectExecuteScalar("Simple", "id=" + id) != 0)
             {
                 return true;
             }
@@ -146,27 +165,29 @@ namespace primeNumbers
 
         public int GetSimple(int id)
         {
-            return SelectExecuteScalar("Simple", "id=" + id);           
+            return SelectExecuteScalar("Simple", "id=" + id);
         }
 
-        //____________________________________________________________________________________
         public void ClearDatabase()
         {
-            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + defaultSettings.dataBase, mySqlConnection);
+            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + DefaultSettings.dataBase, mySqlConnection);
+
             ConnectionOpen();
+
             command.ExecuteNonQuery();
+
             ConnectionClose();
         }
 
         public void CopyTable(string table, string tableTo)
         {
-            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " +tableTo, mySqlConnection);
+            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + tableTo, mySqlConnection);
 
             ConnectionOpen();
 
             command.ExecuteNonQuery();
 
-            command = new MySqlCommand("INSERT INTO "+tableTo+ " SELECT * FROM "+table, mySqlConnection);
+            command = new MySqlCommand("INSERT INTO " + tableTo + " SELECT * FROM " + table, mySqlConnection);
 
             command.ExecuteNonQuery();
 

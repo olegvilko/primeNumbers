@@ -47,7 +47,7 @@
             this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
             this.applyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
+            this.countToStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.applyToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.methodCheckToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.simpleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,9 +75,11 @@
             this.getTypeToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.oneColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.columnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.FormulaCheckToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.ownToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.clipBoardToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.listBox = new System.Windows.Forms.ListBox();
+            this.aboutTheProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -154,7 +156,7 @@
             this.englishToolStripMenuItem,
             this.русскийToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.languageToolStripMenuItem.Text = "Language";
             // 
             // englishToolStripMenuItem
@@ -174,7 +176,7 @@
             // clearDataBaseToolStripMenuItem
             // 
             this.clearDataBaseToolStripMenuItem.Name = "clearDataBaseToolStripMenuItem";
-            this.clearDataBaseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearDataBaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearDataBaseToolStripMenuItem.Text = "Clear DataBase";
             this.clearDataBaseToolStripMenuItem.Click += new System.EventHandler(this.clearDataBaseToolStripMenuItem_Click);
             // 
@@ -184,7 +186,7 @@
             this.toolStripTextBox1,
             this.applyToolStripMenuItem});
             this.pathToolStripMenuItem.Name = "pathToolStripMenuItem";
-            this.pathToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pathToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pathToolStripMenuItem.Text = "Path";
             // 
             // toolStripTextBox1
@@ -206,7 +208,7 @@
             this.toolStripTextBox2,
             this.applyToolStripMenuItem1});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "Delay";
             // 
             // toolStripTextBox2
@@ -228,23 +230,23 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox3,
+            this.countToStripTextBox,
             this.applyToolStripMenuItem2});
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Count to";
             // 
-            // toolStripTextBox3
+            // countToStripTextBox
             // 
-            this.toolStripTextBox3.BackColor = System.Drawing.SystemColors.Info;
-            this.toolStripTextBox3.Name = "toolStripTextBox3";
-            this.toolStripTextBox3.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox3_KeyPress);
+            this.countToStripTextBox.BackColor = System.Drawing.SystemColors.Info;
+            this.countToStripTextBox.Name = "countToStripTextBox";
+            this.countToStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.countToStripTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox3_KeyPress);
             // 
             // applyToolStripMenuItem2
             // 
             this.applyToolStripMenuItem2.Name = "applyToolStripMenuItem2";
-            this.applyToolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
+            this.applyToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.applyToolStripMenuItem2.Text = "Apply";
             this.applyToolStripMenuItem2.Click += new System.EventHandler(this.applyToolStripMenuItem2_Click);
             // 
@@ -255,32 +257,34 @@
             this.byTableToolStripMenuItem,
             this.byArrayToolStripMenuItem});
             this.methodCheckToolStripMenuItem.Name = "methodCheckToolStripMenuItem";
-            this.methodCheckToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.methodCheckToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.methodCheckToolStripMenuItem.Text = "Method check";
             // 
             // simpleToolStripMenuItem
             // 
             this.simpleToolStripMenuItem.Name = "simpleToolStripMenuItem";
-            this.simpleToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.simpleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.simpleToolStripMenuItem.Text = "Simple";
             this.simpleToolStripMenuItem.Click += new System.EventHandler(this.simpleToolStripMenuItem_Click);
             // 
             // byTableToolStripMenuItem
             // 
             this.byTableToolStripMenuItem.Name = "byTableToolStripMenuItem";
-            this.byTableToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.byTableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.byTableToolStripMenuItem.Text = "By table";
             this.byTableToolStripMenuItem.Click += new System.EventHandler(this.byTableToolStripMenuItem_Click);
             // 
             // byArrayToolStripMenuItem
             // 
             this.byArrayToolStripMenuItem.Name = "byArrayToolStripMenuItem";
-            this.byArrayToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.byArrayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.byArrayToolStripMenuItem.Text = "By array";
             this.byArrayToolStripMenuItem.Click += new System.EventHandler(this.byArrayToolStripMenuItem_Click);
             // 
             // HelpToolStripMenuItem
             // 
+            this.HelpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutTheProgramToolStripMenuItem});
             this.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem";
             this.HelpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.HelpToolStripMenuItem.Text = "Help";
@@ -351,8 +355,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getToolStripButton1,
             this.toolStripLabel1,
+            this.getToolStripButton1,
             this.getFromToolStripLabel,
             this.getFromToolStripTextBox,
             this.getToToolStripLabel,
@@ -360,7 +364,8 @@
             this.columnsToolStripLabel,
             this.columnsToolStripTextBox,
             this.getTypeToolStripDropDownButton,
-            this.FormulaCheckToolStripButton,
+            this.ownToolStripButton,
+            this.toolStripSeparator1,
             this.clipBoardToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -448,30 +453,21 @@
             this.columnsToolStripMenuItem.Text = "Columns";
             this.columnsToolStripMenuItem.Click += new System.EventHandler(this.columnsToolStripMenuItem_Click);
             // 
-            // listBox1
+            // ownToolStripButton
             // 
-            this.listBox1.BackColor = System.Drawing.SystemColors.Menu;
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.ItemHeight = 14;
-            this.listBox1.Location = new System.Drawing.Point(0, 49);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBox1.Size = new System.Drawing.Size(800, 379);
-            this.listBox1.TabIndex = 6;
+            this.ownToolStripButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.ownToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ownToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ownToolStripButton.Image")));
+            this.ownToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ownToolStripButton.Name = "ownToolStripButton";
+            this.ownToolStripButton.Size = new System.Drawing.Size(36, 22);
+            this.ownToolStripButton.Text = "Own";
+            this.ownToolStripButton.Click += new System.EventHandler(this.FormulaCheckToolStripButton_Click);
             // 
-            // FormulaCheckToolStripButton
+            // toolStripSeparator1
             // 
-            this.FormulaCheckToolStripButton.BackColor = System.Drawing.Color.Gainsboro;
-            this.FormulaCheckToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FormulaCheckToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("FormulaCheckToolStripButton.Image")));
-            this.FormulaCheckToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FormulaCheckToolStripButton.Name = "FormulaCheckToolStripButton";
-            this.FormulaCheckToolStripButton.Size = new System.Drawing.Size(91, 22);
-            this.FormulaCheckToolStripButton.Text = "Formula Check";
-            this.FormulaCheckToolStripButton.Click += new System.EventHandler(this.FormulaCheckToolStripButton_Click);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // clipBoardToolStripButton
             // 
@@ -484,12 +480,33 @@
             this.clipBoardToolStripButton.Text = "Clip Board";
             this.clipBoardToolStripButton.Click += new System.EventHandler(this.clipBoardToolStripButton_Click);
             // 
+            // listBox
+            // 
+            this.listBox.BackColor = System.Drawing.SystemColors.Menu;
+            this.listBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listBox.FormattingEnabled = true;
+            this.listBox.HorizontalScrollbar = true;
+            this.listBox.ItemHeight = 14;
+            this.listBox.Location = new System.Drawing.Point(0, 49);
+            this.listBox.Name = "listBox";
+            this.listBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.listBox.Size = new System.Drawing.Size(800, 379);
+            this.listBox.TabIndex = 6;
+            // 
+            // aboutTheProgramToolStripMenuItem
+            // 
+            this.aboutTheProgramToolStripMenuItem.Name = "aboutTheProgramToolStripMenuItem";
+            this.aboutTheProgramToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutTheProgramToolStripMenuItem.Text = "About the program";
+            this.aboutTheProgramToolStripMenuItem.Click += new System.EventHandler(this.aboutTheProgramToolStripMenuItem_Click);
+            // 
             // Simple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.listBox);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -533,7 +550,7 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
         private System.Windows.Forms.ToolStripMenuItem applyToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox3;
+        private System.Windows.Forms.ToolStripTextBox countToStripTextBox;
         private System.Windows.Forms.ToolStripStatusLabel message;
         private System.Windows.Forms.ToolStripMenuItem applyToolStripMenuItem2;
         private System.Windows.Forms.ToolStripStatusLabel timeToolStripStatusLabel;
@@ -546,7 +563,6 @@
         private System.Windows.Forms.ToolStripMenuItem byArrayToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripTextBox getFromToolStripTextBox;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripLabel getFromToolStripLabel;
         private System.Windows.Forms.ToolStripLabel getToToolStripLabel;
@@ -557,8 +573,11 @@
         private System.Windows.Forms.ToolStripLabel columnsToolStripLabel;
         private System.Windows.Forms.ToolStripTextBox columnsToolStripTextBox;
         private System.Windows.Forms.ToolStripMenuItem columnsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton FormulaCheckToolStripButton;
+        private System.Windows.Forms.ToolStripButton ownToolStripButton;
         private System.Windows.Forms.ToolStripButton clipBoardToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ListBox listBox;
+        private System.Windows.Forms.ToolStripMenuItem aboutTheProgramToolStripMenuItem;
     }
 }
 

@@ -2,12 +2,12 @@
 {
     class Language
     {        
-        public Name name;
+        public Text text;
 
         public string en = "En";
         public string ru = "Ru";
 
-        public struct Name
+        public struct Text
         {         
             public string start;
             public string stop;
@@ -40,78 +40,89 @@
             public string getType;
             public string getTypeOneColumn;
             public string getColumns;
+            public string aboutTheProgram;
+            public string aboutTheProgramText;
+            public string own;
+            public string clipBoard;
+
         }
 
         public void Ru()
         {
-            name.start = "Старт";
-            name.stop = "Стоп";
-            name.file = "Файл";
-            name.settings = "Опции";
-            name.help = "Справка";
-            name.get = "Вывести";
-            name.maxNum = "Последнее число:";
-            name.maxSimple = "Найдено простых чисел:";
-            name.nameProject = "Простые числа";
-            name.language = "Язык";
-            name.clearDataBase = "Очистить таблицу";
-            name.pathDataBase = "Путь к базе данных";
-            name.exit = "Выход";
-            name.delay = "Задержка";
-            name.apply = "Применить";
-            name.countTo = "Считать до";
-            name.clearBaseConfirmAction = "Подтвердите действие";
-            name.clearBaseCompleteTheProcess = "Очистить таблицу?";
-            name.time = "Время";
-            name.saveBackup = "Сохранить";
-            name.loadBackup = "Загрузить";
-            name.methodCheck = "Метод проверки";
-            name.methodCheckSimple = "Простая";
-            name.methodCheckByTable = "По таблице";
-            name.methodSimpleArray = "По массиву";
-            name.getFrom = "от";
-            name.getTo = "до";
-            name.getType = "Тип вывода";
-            name.getTypeOneColumn = "Одна колонка, число и его номер простого числа";
-            name.getColumns = "колонок:";
-            //
-            name.logCountTo = "Достигнут предел считать до ";
+            text.start = "Старт";
+            text.stop = "Стоп";
+            text.file = "Файл";
+            text.settings = "Опции";
+            text.help = "Справка";
+            text.get = "Вывести";
+            text.maxNum = "Последнее число:";
+            text.maxSimple = "Найдено простых чисел:";
+            text.nameProject = "Простые числа";
+            text.language = "Язык";
+            text.clearDataBase = "Очистить таблицу";
+            text.pathDataBase = "Путь к базе данных";
+            text.exit = "Выход";
+            text.delay = "Задержка";
+            text.apply = "Применить";
+            text.countTo = "Считать до";
+            text.clearBaseConfirmAction = "Подтвердите действие";
+            text.clearBaseCompleteTheProcess = "Очистить таблицу?";
+            text.time = "Время";
+            text.saveBackup = "Сохранить";
+            text.loadBackup = "Загрузить";
+            text.methodCheck = "Метод проверки";
+            text.methodCheckSimple = "Простая";
+            text.methodCheckByTable = "По таблице";
+            text.methodSimpleArray = "По массиву";
+            text.getFrom = "от";
+            text.getTo = "до";
+            text.getType = "Тип вывода";
+            text.getTypeOneColumn = "Одна колонка, число и его номер простого числа";
+            text.getColumns = "колонок:";
+            text.logCountTo = "Достигнут предел считать до ";
+            text.aboutTheProgram = "О программе";
+            text.aboutTheProgramText = "Программное обеспечение для изучения простых чисел. Версия 1.0";
+            text.own = "Свой алгоритм";
+            text.clipBoard = "Скопировать в буфер";
         }
 
         public void En()
         {
-            name.start = "Start";
-            name.stop = "Stop";
-            name.file = "File";
-            name.settings = "Settings";
-            name.help = "Help";
-            name.get = "Get";
-            name.maxNum = "Max number: ";
-            name.maxSimple = "Found prime numbers: ";
-            name.nameProject = "Prime numbers";
-            name.language = "Language";
-            name.clearDataBase = "Clear table";
-            name.pathDataBase = "Path DataBase";
-            name.exit = "Exit";
-            name.delay = "Delay";
-            name.apply = "Apply";
-            name.countTo = "Count to";
-            name.clearBaseConfirmAction = "Confirm action";
-            name.clearBaseCompleteTheProcess = "Clear table?";
-            name.time = "Time";
-            name.loadBackup = "Load";
-            name.saveBackup = "Save";
-            name.methodCheck = "Method check";
-            name.methodCheckSimple = "Simple";
-            name.methodCheckByTable = "By table";
-            name.methodSimpleArray = "By array";
-            name.getFrom = "from";
-            name.getTo = "to";
-            name.getType = "Get type";
-            name.getTypeOneColumn = "One column, number and count prime number";
-            name.getColumns = "columns:";
-            //
-            name.logCountTo = "Limit reached count to ";
+            text.start = "Start";
+            text.stop = "Stop";
+            text.file = "File";
+            text.settings = "Settings";
+            text.help = "Help";
+            text.get = "Get";
+            text.maxNum = "Max number: ";
+            text.maxSimple = "Found prime numbers: ";
+            text.nameProject = "Prime numbers";
+            text.language = "Language";
+            text.clearDataBase = "Clear table";
+            text.pathDataBase = "Path DataBase";
+            text.exit = "Exit";
+            text.delay = "Delay";
+            text.apply = "Apply";
+            text.countTo = "Count to";
+            text.clearBaseConfirmAction = "Confirm action";
+            text.clearBaseCompleteTheProcess = "Clear table?";
+            text.time = "Time";
+            text.loadBackup = "Load";
+            text.saveBackup = "Save";
+            text.methodCheck = "Method check";
+            text.methodCheckSimple = "Simple";
+            text.methodCheckByTable = "By table";
+            text.methodSimpleArray = "By array";
+            text.getFrom = "from";
+            text.getTo = "to";
+            text.getType = "Get type";
+            text.getTypeOneColumn = "One column, number and count prime number";
+            text.getColumns = "columns:";
+            text.logCountTo = "Limit reached count to ";
+            text.aboutTheProgram = "About The Program";
+            text.aboutTheProgramText = "Software for learning simple numbers. Version 1.0";
+            text.own = "Own algorithm";
+            text.clipBoard = "Clip board";
         }
 
         public Language(string lang)

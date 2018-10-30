@@ -3,26 +3,28 @@ using System;
 
 namespace primeNumbers
 {
-    public class DefaultSettings
+    public static class DefaultSettings
     {
         // PhpMyAdmin  http://192.168.10.226:85
 
-        public string language = "Ru";
-        public string dataBase = "simple";
-        public string table = "simple";
-        public string tableBackup = "simpleBackup";
-        public string connectionString = "Server=192.168.10.226;Database=simple;Uid=simple;Pwd=mYUXLmSmqxd2F6Iu";
-        public string typeBase = "MySql";
-        public string allotmentLeft = "[ ";
-        public string AllotmentRigth = " ]";
-        public int lengthOutput = 10;
+        public static string language = "Ru";
+        public static string dataBase = "simple";
+        public static string table = "simple";
+        public static string tableBackup = "simpleBackup";
+        public static string connectionString = "Server=192.168.10.226;Database=simple;Uid=simple;Pwd=mYUXLmSmqxd2F6Iu";
+        public static string typeBase = "MySql";
+        public static string allotmentLeft = "[ ";
+        public static string AllotmentRigth = " ]";
+        public static string messageException = "An exception occurred";
+
+        public static int lengthOutput = 10;
         //public string checkSimpleMethod = "maths.CheckSimple";
-        public int threadSleep = 0;
-        public int countTo = 50000;
-        public int timeOutput=1000;
-        public int getFrom = 0;
-        public int getTo = 1000;
-        public int getColumns = 10;
+        public static int threadSleep = 0;
+        public static int countTo = 50000000;
+        public static int timeOutput=1000;
+        public static int getFrom = 0;
+        public static int getTo = 1000;
+        public static int getColumns = 10;
        
     }
 }
