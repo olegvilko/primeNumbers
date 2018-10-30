@@ -53,11 +53,8 @@ namespace primeNumbers
         int SelectExecuteScalar(string str)
         {
             MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
-
             ConnectionOpen();
-
             object obj = null;
-
             try
             {
                 obj = command.ExecuteScalar();
@@ -66,9 +63,7 @@ namespace primeNumbers
             {
                 MessageBox.Show(ex.Message);
             }
-
             ConnectionClose();
-
             if (obj != DBNull.Value)
             {
                 return Convert.ToInt32(obj);
@@ -79,13 +74,9 @@ namespace primeNumbers
         int SelectExecuteScalar(string str, string where)
         {
             MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase + " WHERE " + where, mySqlConnection);
-
             ConnectionOpen();
-
             object obj = command.ExecuteScalar();
-
             ConnectionClose();
-
             if (obj != DBNull.Value)
             {
                 return Convert.ToInt32(obj);
@@ -98,15 +89,10 @@ namespace primeNumbers
             try
             {
                 MySqlConnection connection = new MySqlConnection(DefaultSettings.connectionString);
-
                 await connection.OpenAsync();
-
                 MySqlCommand command = new MySqlCommand("INSERT INTO " + DefaultSettings.dataBase + " (simple)VALUES (@Simple)", connection);
-
                 command.Parameters.AddWithValue("simple", simple);
-
                 await command.ExecuteNonQueryAsync();
-
                 await connection.CloseAsync();
             }
             catch (Exception ex)
@@ -118,23 +104,16 @@ namespace primeNumbers
         public List<object[]> SelectReader(string str)
         {
             MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
-
             ConnectionOpen();
-
             MySqlDataReader reader = command.ExecuteReader();
-
             List<object[]> list = new List<object[]>();
-
             foreach (IDataRecord current in reader)
             {
                 object[] row = new object[reader.FieldCount];
-
                 reader.GetValues(row);
-
                 list.Add(row);
             }
             ConnectionClose();
-
             return list;
         }
 
@@ -159,7 +138,6 @@ namespace primeNumbers
             {
                 return true;
             }
-
             return false;
         }
 
@@ -171,26 +149,18 @@ namespace primeNumbers
         public void ClearDatabase()
         {
             MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + DefaultSettings.dataBase, mySqlConnection);
-
             ConnectionOpen();
-
             command.ExecuteNonQuery();
-
             ConnectionClose();
         }
 
         public void CopyTable(string table, string tableTo)
         {
             MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + tableTo, mySqlConnection);
-
             ConnectionOpen();
-
             command.ExecuteNonQuery();
-
             command = new MySqlCommand("INSERT INTO " + tableTo + " SELECT * FROM " + table, mySqlConnection);
-
             command.ExecuteNonQuery();
-
             ConnectionClose();
         }
     }

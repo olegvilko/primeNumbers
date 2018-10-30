@@ -9,94 +9,128 @@ namespace primeNumbers
 {
     public class Custom
     {
-        // Какие числа выводить
+        // Какие числа выводить.
         public bool IsVisible(int id, int simple)
         {
-            //string str = id.ToString();
-            //int last = str[str.Length - 1] - '0';
-            //if (last == 1 || last == 3 || last == 7 || last == 9)
-            if(simple==0)
+            try
             {
-                return true;
+                //string str = id.ToString();
+                //int last = str[str.Length - 1] - '0';
+                //if (last == 1 || last == 3 || last == 7 || last == 9)
+                if (simple != 0)
+                {
+                    return true;
+                }               
+            }
+            catch
+            {
+                MessageBox.Show(DefaultSettings.messageExceptionIsVisible);
             }
             return false;
         }
 
-        // Какие числа выделять
+        // Какие числа выделять.
         public bool AllotmentString(int id, int simple)
         {
             // return false;
-
-            if (simple == 0)
+            try
             {
-                return true;
+                if (simple != 0)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                MessageBox.Show(DefaultSettings.messageExceptionAllotmentString);
             }
             return false;
         }
 
-        // Какие колонки выводить
+        // Какие колонки выводить.
         public bool ColumnVisible(int column)
         {
-            if (column == 1 || column == 3 || column == 4 || column == 5 || column == 7 || column == 9)
+            try
             {
-                return false;
+                if (column == 1 || column == 3 || column == 4 || column == 5 || column == 7 || column == 9)
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                MessageBox.Show(DefaultSettings.messageExceptionColumnVisible);
             }
             return true;
         }
 
         public string[] ProcessingList(string[] arrayList)
         {
-            //for (int i = 1; i < arrayList.Length; i++)
-            //{
-            //    char ch = arrayList[i][1];
-            //    if (arrayList[i][6] != '[' || arrayList[i][16] != '[' || arrayList[i][26] != '[' || arrayList[i][36] != '[')
-            //    {
-            //        arrayList[i] = "";
-            //    }
-            //}
+            try
+            {
+                //for (int i = 1; i < arrayList.Length; i++)
+                //{
+                //    char ch = arrayList[i][1];
+                //    if (arrayList[i][6] != '[' || arrayList[i][16] != '[' || arrayList[i][26] != '[' || arrayList[i][36] != '[')
+                //    {
+                //        arrayList[i] = "";
+                //    }
+                //}
+            }
+            catch
+            {
+                MessageBox.Show(DefaultSettings.messageExceptionProcessingList);
+            }
             return arrayList;
         }
 
-        public void FormulaCheck(List<object[]> list, ListBox listBox, int from, int to)
+        public void ownAlgorithm(List<object[]> list, ListBox listBox, int from, int to)
         {
-            int length = to - from;
-            int[] a = new int[length];
-            int next = 0;
-            for (int i = 0; i < length; i++)
+            try
             {
-                if (i + 1 < list.Count)
+                int length = to - from;
+                int[] a = new int[length];
+                int next = 0;
+                for (var i = 0; i < length; i++)
                 {
-                    int n = (int)list[i+from][(int)Sql.Table.id];
-                    int s = (int)list[i+from][(int)Sql.Table.simple];
-                    if (s != 0)
+                    if (i + 1 < list.Count)
                     {
-                        a[next] = n;
-                        next++;
-                       // int s1 = (int)list[i][(int)Sql.Table.simple];
-                        //int s2 = (int)list[i + 1][(int)Sql.Table.simple];
+                        int n = (int)list[i + from][(int)Sql.Table.id];
+                        int s = (int)list[i + from][(int)Sql.Table.simple];
+                        if (s != 0)
+                        {
+                            a[next] = n;
+                            next++;
+                            // int s1 = (int)list[i][(int)Sql.Table.simple];
+                            //int s2 = (int)list[i + 1][(int)Sql.Table.simple];
 
-                        //  int[] a=;
-                       // int k = s2 - s;
-                       // listBox.Items.Add(k);
+                            //  int[] a=;
+                            // int k = s2 - s;
+                            // listBox.Items.Add(k);
+                        }
+
+
+                        //     return s2.ToString();
+                        //int simple = (int)list[i][(int)Sql.Table.simple];
                     }
-
-                    
-               //     return s2.ToString();
-                    //int simple = (int)list[i][(int)Sql.Table.simple];
                 }
-            }
 
-            for (int i = 0; i < length-1; i++)
+                for (var i = 0; i < length - 1; i++)
+                {
+                    int k = a[i + 1] - a[i];
+                    listBox.Items.Add(k);
+                }
+
+                //foreach (int element in a)
+                //{
+                //    listBox.Items.Add(element);
+                //}
+                //  return "";
+            }
+            catch
             {
-                int k = a[i + 1] - a[i];
-                listBox.Items.Add(k);
+                MessageBox.Show(DefaultSettings.messageExceptionOwnAlgorithm);
             }
-
-            //foreach (int element in a)
-            //{
-            //    listBox.Items.Add(element);
-            //}
-            //  return "";
         }
     }
 }

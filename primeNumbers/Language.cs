@@ -3,7 +3,6 @@
     class Language
     {        
         public Text text;
-
         public string en = "En";
         public string ru = "Ru";
 
@@ -42,9 +41,8 @@
             public string getColumns;
             public string aboutTheProgram;
             public string aboutTheProgramText;
-            public string own;
+            public string ownAlgorithm;
             public string clipBoard;
-
         }
 
         public void Ru()
@@ -82,7 +80,7 @@
             text.logCountTo = "Достигнут предел считать до ";
             text.aboutTheProgram = "О программе";
             text.aboutTheProgramText = "Программное обеспечение для изучения простых чисел. Версия 1.0";
-            text.own = "Свой алгоритм";
+            text.ownAlgorithm = "Свой алгоритм";
             text.clipBoard = "Скопировать в буфер";
         }
 
@@ -121,7 +119,7 @@
             text.logCountTo = "Limit reached count to ";
             text.aboutTheProgram = "About The Program";
             text.aboutTheProgramText = "Software for learning simple numbers. Version 1.0";
-            text.own = "Own algorithm";
+            text.ownAlgorithm = "Own algorithm";
             text.clipBoard = "Clip board";
         }
 

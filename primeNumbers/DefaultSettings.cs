@@ -16,6 +16,12 @@ namespace primeNumbers
         public static string allotmentLeft = "[ ";
         public static string AllotmentRigth = " ]";
         public static string messageException = "An exception occurred";
+        public static string messageExceptionIsVisible = "Exception on Custom class, function IsVisible";
+        public static string messageExceptionAllotmentString = "Exception on Custom class, function AllotmentString";
+        public static string messageExceptionColumnVisible = "Exception on Custom class, function ColumnVisible";
+        public static string messageExceptionProcessingList = "Exception on Custom class, function ProcessingList";
+        public static string messageExceptionOwnAlgorithm = "Exception on Custom class, function ownAlgorithm";
+       
 
         public static int lengthOutput = 10;
         //public string checkSimpleMethod = "maths.CheckSimple";

@@ -10,10 +10,8 @@ namespace primeNumbers
 {
     public partial class Simple : Form
     {
-        Language language;
-
-        public Logics logics;
-
+        Language language = new Language(DefaultSettings.language);
+        public Logics logics=new Logics();
         Stopwatch stopWatch;
 
         void ApplyLanguage()
@@ -34,7 +32,7 @@ namespace primeNumbers
             applyToolStripMenuItem.Text = language.text.apply;
             applyToolStripMenuItem1.Text = language.text.apply;
             applyToolStripMenuItem2.Text = language.text.apply;
-            toolStripMenuItem2.Text = language.text.countTo;
+            countToToolStripMenuItem.Text = language.text.countTo;
             timeToolStripStatusLabel.Text = language.text.time;
             saveBackupToolStripMenuItem.Text = language.text.saveBackup;
             loadBackupToolStripMenuItem.Text = language.text.loadBackup;
@@ -48,9 +46,8 @@ namespace primeNumbers
             oneColumnToolStripMenuItem.Text = language.text.getTypeOneColumn;
             columnsToolStripLabel.Text = language.text.getColumns;
             aboutTheProgramToolStripMenuItem.Text = language.text.aboutTheProgram;
-            ownToolStripButton.Text = language.text.own;
+            ownToolStripButton.Text = language.text.ownAlgorithm;
             clipBoardToolStripButton.Text = language.text.clipBoard;
-
         }
 
         void VariableToForm()
@@ -65,20 +62,9 @@ namespace primeNumbers
 
         void StartOptions()
         {
-            language = new Language(DefaultSettings.language);
-
             ApplyLanguage();
-
             VariableToForm();
-
-            logics = new Logics();
-
-            MaxId();
-
-            MaxSimple();
-
             SimpleMethod();
-
         }
 
         public Simple()
@@ -93,7 +79,6 @@ namespace primeNumbers
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (sql.mySqlConnection != null && sql.mySqlConnection.State != ConnectionState.Closed)
             logics.ExitProgramm();
         }
 
@@ -107,9 +92,7 @@ namespace primeNumbers
             if (logics.calculationState == Logics.CalculationState.Start)
             {
                 logics.calculationState = Logics.CalculationState.Stop;
-
                 StartToolStripMenuItem.Text = language.text.stop;
-
                 stopWatch = new Stopwatch();
                 stopWatch.Start();
                 calculationBackgroundWorker.RunWorkerAsync();
@@ -117,23 +100,19 @@ namespace primeNumbers
             else
             {
                 logics.calculationState = Logics.CalculationState.Start;
-
                 StartToolStripMenuItem.Text = language.text.start;
-
             }
         }
 
         private void englishToolStripMenuItem_Click(object sender, EventArgs e)
         {
             language = new Language(language.en);
-
             ApplyLanguage();
         }
 
         private void ruToolStripMenuItem_Click(object sender, EventArgs e)
         {
             language = new Language(language.ru);
-
             ApplyLanguage();
         }
 
@@ -152,9 +131,8 @@ namespace primeNumbers
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-
             timeCounter.Text = stopWatch.Elapsed.ToString();
-            toolStripStatusLabel2.Text = e.ProgressPercentage.ToString();
+            maxIdToolStripStatusLabel.Text = e.ProgressPercentage.ToString();
             MaxSimple();
             if (Convert.ToInt32(e.ProgressPercentage) >= DefaultSettings.countTo)
             {
@@ -268,42 +246,37 @@ namespace primeNumbers
         void StartGetNumbersToScreen()
         {
             listBox.Items.Clear();
-
             int from = Convert.ToInt32(getFromToolStripTextBox.Text);
             int to = Convert.ToInt32(getToToolStripTextBox.Text);
             int columns = Convert.ToInt32(columnsToolStripTextBox.Text);
-
             logics.GetTypeColumns(listBox, from, to, columns);
-
             MaxId();
             MaxSimple();
         }
 
         private void toolStripTextBox4_KeyPress(object sender, KeyPressEventArgs e)
         {
-            char number = e.KeyChar;
-            if (!Char.IsDigit(number) && number != 8)
-            {
-                e.Handled = true;
-            }
+            OnlyNumber(e);
         }
 
         private void toolStripTextBox5_KeyPress(object sender, KeyPressEventArgs e)
         {
-            char number = e.KeyChar;
-            if (!Char.IsDigit(number) && number != 8)
-            {
-                e.Handled = true;
-            }
+            OnlyNumber(e);
         }
 
         private void columnsToolStripTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            OnlyNumber(e);
+        }
+
+        bool OnlyNumber(KeyPressEventArgs e)
         {
             char number = e.KeyChar;
             if (!Char.IsDigit(number) && number != 8)
             {
                 e.Handled = true;
             }
+            return false;
         }
 
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
@@ -319,12 +292,9 @@ namespace primeNumbers
         private void FormulaCheckToolStripButton_Click(object sender, EventArgs e)
         {
             listBox.Items.Clear();
-
-            int from = Convert.ToInt32(getFromToolStripTextBox.Text);
-
-            int to = Convert.ToInt32(getToToolStripTextBox.Text);
-
-            logics.FormulaCheck(from, to, listBox);
+            var from = Convert.ToInt32(getFromToolStripTextBox.Text);
+            var to = Convert.ToInt32(getToToolStripTextBox.Text);
+            logics.OwnAlgorithm(from, to, listBox);
         }
 
         private void clipBoardToolStripButton_Click(object sender, EventArgs e)
@@ -334,20 +304,18 @@ namespace primeNumbers
 
         void MaxId()
         {
-            toolStripStatusLabel2.Text = logics.MaxId();
+            maxIdToolStripStatusLabel.Text = logics.MaxId();
         }
 
         void MaxSimple()
         {
-            toolStripStatusLabel4.Text = logics.MaxSimple();
+            maxSimpleToolStripStatusLabel.Text = logics.MaxSimple();
         }
 
         #region Message
         public void Message(string mes)
         {
             message.Text = mes;
-            //   listBox.Items.Clear();
-            //   listBox.Items.Add(mes);
         }
 
         void Message(int mes)

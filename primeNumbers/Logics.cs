@@ -3,11 +3,21 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
+using System.Text;
 
 namespace primeNumbers
 {
     public class Logics
     {
+        Sql sql;
+        Custom custom;
+        int[] simple;
+        int simpleMax;
+        public MethodCheck methodCheck;
+        public CalculationState calculationState = CalculationState.Start;
+        public delegate bool CheckSimpleMethod(int id);
+        public CheckSimpleMethod checkSimpleMethod;
+
         public enum MethodCheck
         {
             CheckSimple,
@@ -21,29 +31,10 @@ namespace primeNumbers
             Stop
         }
 
-        Sql sql;
-
-        Custom custom;
-
-        int[] arraySimple;
-
-        int arraySimpleMax;
-
-        string[] arrayList;
-
-        public MethodCheck methodCheck;
-
-        public CalculationState calculationState = CalculationState.Start;
-
-        public delegate bool CheckSimpleMethod(int id);
-        public CheckSimpleMethod checkSimpleMethod;
-
         public Logics()
         {
             sql = new Sql();
-
             custom = new Custom();
-
             calculationState = CalculationState.Start;
         }
 
@@ -51,18 +42,15 @@ namespace primeNumbers
         public bool CheckSimpleByTable(int id)
         {
             int result;
-            for (int i = 2; ; i++)
+            for (var i = 2; ; i++)
             {
                 int simple = sql.GetNum(i);
                 if (simple < 2) simple = 2;
-
                 result = id / simple;
-
                 if (simple > result)
                 {
                     return true;
                 }
-
                 if ((double)id / simple == result)
                 {
                     return false;
@@ -72,8 +60,8 @@ namespace primeNumbers
 
         public bool CheckSimple(int id)
         {
-            int max;
-            for (int i = 2; i <= (max = id / i); i++)
+            var max=0;
+            for (var i = 2; i <= (max = id / i); i++)
             {
                 if ((double)id / i == max)
                 {
@@ -85,44 +73,37 @@ namespace primeNumbers
 
         public void AddSimpleToArray(int length)
         {
-            arraySimple = new int[length];
-
-            arraySimpleMax = sql.GetMaxSimple();
-
-            if (arraySimpleMax != 0)
+            simple = new int[length];
+            simpleMax = sql.GetMaxSimple();
+            if (simpleMax != 0)
             {
-                for (int i = 0; i < length; i++)
-                {
-                    arraySimple[i] = sql.GetNum(i);
-                }
+                List<object[]> list = sql.SelectReader("Simple");
+                for (var i = 0; i < length; i++)
+                    simple[i] = Convert.ToInt32(list[i][(int)Sql.Table.simple]);
             }
             else
             {
-                arraySimple[0] = 1;
+                simple[0] = 1;
             }
         }
 
         public bool CheckSimpleArray(int id)
         {
-            for (int i = 0; ; i++)
+            for (var i = 0; ; i++)
             {
-                int simple = arraySimple[i];
-                if (simple < 2) simple = 2;
-
-                int result = id / simple;
-
-                if (simple > result)
+                var s = simple[i];
+                if (s < 2) s = 2;
+                var result = id / s;
+                if (s > result)
                 {
                     if (id > 2)
                     {
-                        arraySimpleMax++;
-                        //        Array.Resize(ref arraySimple, ++arraySimpleMax);
-                        arraySimple[++arraySimpleMax] = id;
+                        simpleMax++;
+                        simple[++simpleMax] = id;
                     }
                     return true;
                 }
-
-                if ((double)id / simple == result)
+                if ((double)id / s == result)
                 {
                     return false;
                 }
@@ -133,68 +114,57 @@ namespace primeNumbers
         public void GetTypeColumns(ListBox listBox, int from, int to, int columns)
         {
             List<object[]> list = sql.SelectReader("*");
-
-            int listCount = list.Count;
+            var listCount = list.Count;
             if (from > listCount) from = listCount;
             if (to > listCount) to = listCount;
-
-            int lineNumbering = 0;
-
-            arrayList = new string[0];
-            AddStrToArray(ColumnNumbering());
-
-            for (int j = from; j < to; j += columns)
+            var lineNumbering = 0;
+            string[] numbers = new string[0];
+            numbers= AddStrToArray(numbers, ColumnNumbering());
+            for (var j = from; j < to; j += columns)
             {
                 string str = null;
-                for (int i = j; i < j + columns; i++)
+                for (var i = j; i < j + columns; i++)
                 {
                     if (custom.ColumnVisible(i - j))
                     {
                         if (i > to) break;
                         int id = (int)list[i][(int)Sql.Table.id];
-                        int simple = (int)list[i][(int)Sql.Table.simple];
-
+                        var s = (int)list[i][(int)Sql.Table.simple];
                         string idStr = "";
-                        if (custom.IsVisible(id, simple))
+                        if (custom.IsVisible(id, s))
                         {
                             idStr = id.ToString();
                         }
-
-                        if (custom.AllotmentString(id, simple)) idStr = AllotmentString(idStr, DefaultSettings.allotmentLeft, DefaultSettings.AllotmentRigth);
-
-
+                        if (custom.AllotmentString(id, s)) idStr = AllotmentString(idStr, DefaultSettings.allotmentLeft, DefaultSettings.AllotmentRigth);
                         str += AlignmentString(idStr, DefaultSettings.lengthOutput);
                     }
                 }
                 str = AlignmentString((lineNumbering++).ToString(), 5) + str;
-
-                AddStrToArray(str);
+                numbers = AddStrToArray(numbers, str);
             }
-
-            arrayList = custom.ProcessingList(arrayList);
-
-            for (int i = 0; i < arrayList.Length; i++)
+            numbers = custom.ProcessingList(numbers);
+            for (var i = 0; i < numbers.Length; i++)
             {
-                if (arrayList[i] != "")
-                    listBox.Items.Add(arrayList[i]);
+                if (numbers[i] != "")
+                    listBox.Items.Add(numbers[i]);
             }
         }
 
         string ColumnNumbering()
         {
-            string str = "";
-            for (int i = 0; i < 30; i++)
+            var str = new StringBuilder();
+            for (var i = 0; i < 30; i++)
             {
-                str += " 123456789";
+                str.Append(" 123456789");
             }
-            return str;
-
+            return str.ToString();
         }
 
-        void AddStrToArray(string str)
+        string[] AddStrToArray(string[] numbers, string str)
         {
-            Array.Resize(ref arrayList, arrayList.Length + 1);
-            arrayList[arrayList.Length - 1] = str;
+            Array.Resize(ref numbers, numbers.Length + 1);
+            numbers[numbers.Length - 1] = str;
+            return numbers;
         }
 
         #region Strings
@@ -213,14 +183,13 @@ namespace primeNumbers
         }
         #endregion
 
-        public void FormulaCheck(int from, int to, ListBox listBox)
+        public void OwnAlgorithm(int from, int to, ListBox listBox)
         {
             int length = sql.GetMaxId();
             if (from > length) from = length;
             if (to > length) to = length;
-
             List<object[]> list = sql.SelectReader("*");
-            custom.FormulaCheck(list, listBox, from, to);
+            custom.ownAlgorithm(list, listBox, from, to);
         }
 
         #region DataBase
@@ -252,10 +221,9 @@ namespace primeNumbers
 
         public void CalculationPrimeNumbers(BackgroundWorker backgroundWorker, int countTo)
         {
-            int id = sql.GetMaxId() + 1;
-            int simple = sql.GetMaxSimple();
+               var id = sql.GetMaxId() + 1;
+            var s = sql.GetMaxSimple();
             int counter = id;
-
             if (methodCheck == MethodCheck.CheckSimpleArray)
             {
                 AddSimpleToArray(countTo);
@@ -268,29 +236,27 @@ namespace primeNumbers
                     backgroundWorker.ReportProgress(id - 1);
                     break;
                 }
-
                 if (checkSimpleMethod(id))
                 {
-                    sql.InsertSimple((++simple).ToString());
+                    sql.InsertSimple((++s).ToString());
                 }
                 else
                 {
                     sql.InsertSimple("");
                 }
                 id++;
-
                 if (id - counter >= DefaultSettings.timeOutput)
                 {
                     backgroundWorker.ReportProgress(id);
                     counter = id;
                 }
-
                 Thread.Sleep(DefaultSettings.threadSleep);
             }
         }
 
         public void ExitProgramm()
         {
+            calculationState = CalculationState.Start;
             sql.ConnectionClose();
             Environment.Exit(0);
         }
