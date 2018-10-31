@@ -43,6 +43,10 @@
             public string aboutTheProgramText;
             public string ownAlgorithm;
             public string clipBoard;
+            public string saveConfirmAction;
+            public string loadConfirmAction;
+            public string createTables;
+
         }
 
         public void Ru()
@@ -82,6 +86,9 @@
             text.aboutTheProgramText = "Программное обеспечение для изучения простых чисел. Версия 1.0";
             text.ownAlgorithm = "Свой алгоритм";
             text.clipBoard = "Скопировать в буфер";
+            text.saveConfirmAction = "Перезаписать резервную копию?";
+            text.loadConfirmAction = "Загрузить резервную копию?";
+            text.createTables = "Создать таблицы";
         }
 
         public void En()
@@ -121,6 +128,9 @@
             text.aboutTheProgramText = "Software for learning simple numbers. Version 1.0";
             text.ownAlgorithm = "Own algorithm";
             text.clipBoard = "Clip board";
+            text.saveConfirmAction = "Overwrite backup?";
+            text.loadConfirmAction = "Download backup?";
+            text.createTables = "Create tables";
         }
 
         public Language(string lang)

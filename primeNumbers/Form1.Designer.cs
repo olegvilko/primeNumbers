@@ -80,6 +80,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.clipBoardToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.listBox = new System.Windows.Forms.ListBox();
+            this.createTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -145,7 +146,8 @@
             this.pathToolStripMenuItem,
             this.toolStripMenuItem1,
             this.countToToolStripMenuItem,
-            this.methodCheckToolStripMenuItem});
+            this.methodCheckToolStripMenuItem,
+            this.createTableToolStripMenuItem});
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
             this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.SettingsToolStripMenuItem.Text = "Settings";
@@ -407,7 +409,7 @@
             // getFromToolStripTextBox
             // 
             this.getFromToolStripTextBox.Name = "getFromToolStripTextBox";
-            this.getFromToolStripTextBox.Size = new System.Drawing.Size(100, 25);
+            this.getFromToolStripTextBox.Size = new System.Drawing.Size(50, 25);
             this.getFromToolStripTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox4_KeyPress);
             // 
             // getToToolStripLabel
@@ -419,7 +421,7 @@
             // getToToolStripTextBox
             // 
             this.getToToolStripTextBox.Name = "getToToolStripTextBox";
-            this.getToToolStripTextBox.Size = new System.Drawing.Size(100, 25);
+            this.getToToolStripTextBox.Size = new System.Drawing.Size(50, 25);
             this.getToToolStripTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox5_KeyPress);
             // 
             // columnsToolStripLabel
@@ -431,7 +433,7 @@
             // columnsToolStripTextBox
             // 
             this.columnsToolStripTextBox.Name = "columnsToolStripTextBox";
-            this.columnsToolStripTextBox.Size = new System.Drawing.Size(100, 25);
+            this.columnsToolStripTextBox.Size = new System.Drawing.Size(50, 25);
             this.columnsToolStripTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.columnsToolStripTextBox_KeyPress);
             // 
             // getTypeToolStripDropDownButton
@@ -445,6 +447,7 @@
             this.getTypeToolStripDropDownButton.Name = "getTypeToolStripDropDownButton";
             this.getTypeToolStripDropDownButton.Size = new System.Drawing.Size(64, 22);
             this.getTypeToolStripDropDownButton.Text = "Get type";
+            this.getTypeToolStripDropDownButton.Visible = false;
             // 
             // oneColumnToolStripMenuItem
             // 
@@ -500,6 +503,13 @@
             this.listBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox.Size = new System.Drawing.Size(1384, 690);
             this.listBox.TabIndex = 6;
+            // 
+            // createTableToolStripMenuItem
+            // 
+            this.createTableToolStripMenuItem.Name = "createTableToolStripMenuItem";
+            this.createTableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createTableToolStripMenuItem.Text = "Create table";
+            this.createTableToolStripMenuItem.Click += new System.EventHandler(this.createTableToolStripMenuItem_Click);
             // 
             // Simple
             // 
@@ -578,6 +588,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ListBox listBox;
         private System.Windows.Forms.ToolStripMenuItem aboutTheProgramToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createTableToolStripMenuItem;
     }
 }
 

@@ -15,22 +15,21 @@ namespace primeNumbers
         public static string typeBase = "MySql";
         public static string allotmentLeft = "[ ";
         public static string AllotmentRigth = " ]";
+        public static int lengthOutput = 10;
+        public static int threadSleep = 0;
+        public static int countTo = 50000000;
+        public static int timeOutput = 1000;
+        public static int getFrom = 0;
+        public static int getTo = 1000;
+        public static int getColumns = 10;
+
+        #region Exception
         public static string messageException = "An exception occurred";
         public static string messageExceptionIsVisible = "Exception on Custom class, function IsVisible";
         public static string messageExceptionAllotmentString = "Exception on Custom class, function AllotmentString";
         public static string messageExceptionColumnVisible = "Exception on Custom class, function ColumnVisible";
         public static string messageExceptionProcessingList = "Exception on Custom class, function ProcessingList";
         public static string messageExceptionOwnAlgorithm = "Exception on Custom class, function ownAlgorithm";
-       
-
-        public static int lengthOutput = 10;
-        //public string checkSimpleMethod = "maths.CheckSimple";
-        public static int threadSleep = 0;
-        public static int countTo = 50000000;
-        public static int timeOutput=1000;
-        public static int getFrom = 0;
-        public static int getTo = 1000;
-        public static int getColumns = 10;
-       
+        #endregion 
     }
 }

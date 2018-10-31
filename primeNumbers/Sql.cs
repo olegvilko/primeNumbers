@@ -52,7 +52,7 @@ namespace primeNumbers
 
         int SelectExecuteScalar(string str)
         {
-            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
+            var command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
             ConnectionOpen();
             object obj = null;
             try
@@ -73,7 +73,7 @@ namespace primeNumbers
 
         int SelectExecuteScalar(string str, string where)
         {
-            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase + " WHERE " + where, mySqlConnection);
+            var command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase + " WHERE " + where, mySqlConnection);
             ConnectionOpen();
             object obj = command.ExecuteScalar();
             ConnectionClose();
@@ -88,9 +88,9 @@ namespace primeNumbers
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection(DefaultSettings.connectionString);
+                var connection = new MySqlConnection(DefaultSettings.connectionString);
                 await connection.OpenAsync();
-                MySqlCommand command = new MySqlCommand("INSERT INTO " + DefaultSettings.dataBase + " (simple)VALUES (@Simple)", connection);
+                var command = new MySqlCommand("INSERT INTO " + DefaultSettings.dataBase + " (simple)VALUES (@Simple)", connection);
                 command.Parameters.AddWithValue("simple", simple);
                 await command.ExecuteNonQueryAsync();
                 await connection.CloseAsync();
@@ -103,9 +103,9 @@ namespace primeNumbers
 
         public List<object[]> SelectReader(string str)
         {
-            MySqlCommand command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
+            var command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
             ConnectionOpen();
-            MySqlDataReader reader = command.ExecuteReader();
+            var reader = command.ExecuteReader();
             List<object[]> list = new List<object[]>();
             foreach (IDataRecord current in reader)
             {
@@ -146,22 +146,37 @@ namespace primeNumbers
             return SelectExecuteScalar("Simple", "id=" + id);
         }
 
+        void ExecuteNonQuery(string query)
+        {
+            var command = new MySqlCommand(query, mySqlConnection);
+            ConnectionOpen();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            ConnectionClose();
+        }
+
         public void ClearDatabase()
         {
-            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + DefaultSettings.dataBase, mySqlConnection);
-            ConnectionOpen();
-            command.ExecuteNonQuery();
-            ConnectionClose();
+            ExecuteNonQuery("TRUNCATE TABLE " + DefaultSettings.dataBase);
         }
 
         public void CopyTable(string table, string tableTo)
         {
-            MySqlCommand command = new MySqlCommand("TRUNCATE TABLE " + tableTo, mySqlConnection);
-            ConnectionOpen();
-            command.ExecuteNonQuery();
-            command = new MySqlCommand("INSERT INTO " + tableTo + " SELECT * FROM " + table, mySqlConnection);
-            command.ExecuteNonQuery();
-            ConnectionClose();
+            ExecuteNonQuery("TRUNCATE TABLE " + tableTo);
+            ExecuteNonQuery("INSERT INTO " + tableTo + " SELECT * FROM " + table);
+        }
+
+        public void CreateTable(string table)
+        {
+            ExecuteNonQuery("CREATE TABLE IF NOT EXISTS " + table + " (`id` int (11) NOT NULL, `simple` int (11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+            ExecuteNonQuery("ALTER TABLE " + table + " ADD PRIMARY KEY(`id`);");
+            ExecuteNonQuery("ALTER TABLE " + table + " MODIFY `id` int (11) NOT NULL AUTO_INCREMENT;");
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -11,7 +10,7 @@ namespace primeNumbers
     public partial class Simple : Form
     {
         Language language = new Language(DefaultSettings.language);
-        public Logics logics=new Logics();
+        public Logics logics = new Logics();
         Stopwatch stopWatch;
 
         void ApplyLanguage()
@@ -48,6 +47,7 @@ namespace primeNumbers
             aboutTheProgramToolStripMenuItem.Text = language.text.aboutTheProgram;
             ownToolStripButton.Text = language.text.ownAlgorithm;
             clipBoardToolStripButton.Text = language.text.clipBoard;
+            createTableToolStripMenuItem.Text = language.text.createTables;
         }
 
         void VariableToForm()
@@ -182,12 +182,16 @@ namespace primeNumbers
 
         private void saveBackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            logics.CopyTable(DefaultSettings.table, DefaultSettings.tableBackup);
+            DialogResult result = MessageBox.Show(language.text.saveConfirmAction, language.text.clearBaseConfirmAction, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+                logics.CopyTable(DefaultSettings.table, DefaultSettings.tableBackup);
         }
 
         private void loadBackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            logics.CopyTable(DefaultSettings.tableBackup, DefaultSettings.table);
+            DialogResult result = MessageBox.Show(language.text.loadConfirmAction, language.text.clearBaseConfirmAction, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+                logics.CopyTable(DefaultSettings.tableBackup, DefaultSettings.table);
         }
 
         void MethodKeyColorClear()
@@ -299,7 +303,8 @@ namespace primeNumbers
 
         private void clipBoardToolStripButton_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(string.Join(Environment.NewLine, listBox.Items.OfType<string>().ToArray()));
+            if (listBox.Items.Count != 0)
+                Clipboard.SetText(string.Join(Environment.NewLine, listBox.Items.OfType<string>().ToArray()));
         }
 
         void MaxId()
@@ -327,6 +332,11 @@ namespace primeNumbers
         private void aboutTheProgramToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(language.text.aboutTheProgramText);
+        }
+
+        private void createTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logics.CreateTables();
         }
     }
 }

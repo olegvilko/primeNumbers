@@ -60,7 +60,7 @@ namespace primeNumbers
 
         public bool CheckSimple(int id)
         {
-            var max=0;
+            var max = 0;
             for (var i = 2; i <= (max = id / i); i++)
             {
                 if ((double)id / i == max)
@@ -119,7 +119,7 @@ namespace primeNumbers
             if (to > listCount) to = listCount;
             var lineNumbering = 0;
             string[] numbers = new string[0];
-            numbers= AddStrToArray(numbers, ColumnNumbering());
+            numbers = AddStrToArray(numbers, ColumnNumbering());
             for (var j = from; j < to; j += columns)
             {
                 string str = null;
@@ -215,13 +215,19 @@ namespace primeNumbers
 
         public void CopyTable(string table, string tableTo)
         {
-            sql.CopyTable(DefaultSettings.table, DefaultSettings.tableBackup);
+            sql.CopyTable(table, tableTo);
+        }
+
+        public void CreateTables()
+        {
+            sql.CreateTable(DefaultSettings.table);
+            sql.CreateTable(DefaultSettings.tableBackup);
         }
         #endregion
 
         public void CalculationPrimeNumbers(BackgroundWorker backgroundWorker, int countTo)
         {
-               var id = sql.GetMaxId() + 1;
+            var id = sql.GetMaxId() + 1;
             var s = sql.GetMaxSimple();
             int counter = id;
             if (methodCheck == MethodCheck.CheckSimpleArray)
