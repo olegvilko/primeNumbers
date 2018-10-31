@@ -6,7 +6,6 @@ namespace primeNumbers
     public static class DefaultSettings
     {
         // PhpMyAdmin  http://192.168.10.226:85
-
         public static string language = "Ru";
         public static string dataBase = "simple";
         public static string table = "simple";
