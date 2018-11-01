@@ -50,40 +50,6 @@ namespace primeNumbers
             }
         }
 
-        int SelectExecuteScalar(string str)
-        {
-            var command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
-            ConnectionOpen();
-            object obj = null;
-            try
-            {
-                obj = command.ExecuteScalar();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            ConnectionClose();
-            if (obj != DBNull.Value)
-            {
-                return Convert.ToInt32(obj);
-            }
-            return 0;
-        }
-
-        int SelectExecuteScalar(string str, string where)
-        {
-            var command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase + " WHERE " + where, mySqlConnection);
-            ConnectionOpen();
-            object obj = command.ExecuteScalar();
-            ConnectionClose();
-            if (obj != DBNull.Value)
-            {
-                return Convert.ToInt32(obj);
-            }
-            return 0;
-        }
-
         public async void InsertSimple(string simple)
         {
             try
@@ -97,7 +63,7 @@ namespace primeNumbers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                // MessageBox.Show(ex.Message);
             }
         }
 
@@ -146,21 +112,6 @@ namespace primeNumbers
             return SelectExecuteScalar("Simple", "id=" + id);
         }
 
-        void ExecuteNonQuery(string query)
-        {
-            var command = new MySqlCommand(query, mySqlConnection);
-            ConnectionOpen();
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            ConnectionClose();
-        }
-
         public void ClearDatabase()
         {
             ExecuteNonQuery("TRUNCATE TABLE " + DefaultSettings.dataBase);
@@ -178,5 +129,56 @@ namespace primeNumbers
             ExecuteNonQuery("ALTER TABLE " + table + " ADD PRIMARY KEY(`id`);");
             ExecuteNonQuery("ALTER TABLE " + table + " MODIFY `id` int (11) NOT NULL AUTO_INCREMENT;");
         }
+
+        #region Private
+        private void ExecuteNonQuery(string query)
+        {
+            var command = new MySqlCommand(query, mySqlConnection);
+            ConnectionOpen();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            ConnectionClose();
+        }
+
+        private int SelectExecuteScalar(string str, string where)
+        {
+            var command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase + " WHERE " + where, mySqlConnection);
+            ConnectionOpen();
+            object obj = command.ExecuteScalar();
+            ConnectionClose();
+            if (obj != DBNull.Value)
+            {
+                return Convert.ToInt32(obj);
+            }
+            return 0;
+        }
+
+        private int SelectExecuteScalar(string str)
+        {
+            var command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
+            ConnectionOpen();
+            object obj = null;
+            try
+            {
+                obj = command.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            ConnectionClose();
+            if (obj != DBNull.Value)
+            {
+                return Convert.ToInt32(obj);
+            }
+            return 0;
+        }
+        #endregion
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace primeNumbers
@@ -84,7 +80,7 @@ namespace primeNumbers
             return arrayList;
         }
 
-        public void ownAlgorithm(List<object[]> list, ListBox listBox, int from, int to)
+        public void OwnAlgorithm(List<object[]> list, ListBox listBox, int from, int to)
         {
             try
             {

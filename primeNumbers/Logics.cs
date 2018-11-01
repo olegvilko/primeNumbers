@@ -9,14 +9,15 @@ namespace primeNumbers
 {
     public class Logics
     {
-        Sql sql;
-        Custom custom;
-        int[] simple;
-        int simpleMax;
         public MethodCheck methodCheck;
         public CalculationState calculationState = CalculationState.Start;
         public delegate bool CheckSimpleMethod(int id);
         public CheckSimpleMethod checkSimpleMethod;
+
+        Sql sql;
+        Custom custom;
+        int[] simple;
+        int simpleMax;
 
         public enum MethodCheck
         {
@@ -150,23 +151,6 @@ namespace primeNumbers
             }
         }
 
-        string ColumnNumbering()
-        {
-            var str = new StringBuilder();
-            for (var i = 0; i < 30; i++)
-            {
-                str.Append(" 123456789");
-            }
-            return str.ToString();
-        }
-
-        string[] AddStrToArray(string[] numbers, string str)
-        {
-            Array.Resize(ref numbers, numbers.Length + 1);
-            numbers[numbers.Length - 1] = str;
-            return numbers;
-        }
-
         #region Strings
         public string AlignmentString(string str, int count)
         {
@@ -189,7 +173,7 @@ namespace primeNumbers
             if (from > length) from = length;
             if (to > length) to = length;
             List<object[]> list = sql.SelectReader("*");
-            custom.ownAlgorithm(list, listBox, from, to);
+            custom.OwnAlgorithm(list, listBox, from, to);
         }
 
         #region DataBase
@@ -266,5 +250,24 @@ namespace primeNumbers
             sql.ConnectionClose();
             Environment.Exit(0);
         }
+
+        #region Private
+        private string ColumnNumbering()
+        {
+            var str = new StringBuilder();
+            for (var i = 0; i < 30; i++)
+            {
+                str.Append(" 123456789");
+            }
+            return str.ToString();
+        }
+
+        private string[] AddStrToArray(string[] numbers, string str)
+        {
+            Array.Resize(ref numbers, numbers.Length + 1);
+            numbers[numbers.Length - 1] = str;
+            return numbers;
+        }
+        #endregion
     }
 }

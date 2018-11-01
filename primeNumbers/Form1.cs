@@ -10,68 +10,15 @@ namespace primeNumbers
     public partial class Simple : Form
     {
         Language language = new Language(DefaultSettings.language);
-        public Logics logics = new Logics();
+        Logics logics = new Logics();
         Stopwatch stopWatch;
-
-        void ApplyLanguage()
-        {
-            this.Text = language.text.nameProject;
-            FileToolStripMenuItem.Text = language.text.file;
-            HelpToolStripMenuItem.Text = language.text.help;
-            StartToolStripMenuItem.Text = language.text.start;
-            SettingsToolStripMenuItem.Text = language.text.settings;
-            getToolStripButton1.Text = language.text.get;
-            toolStripStatusLabel1.Text = language.text.maxNum;
-            toolStripStatusLabel3.Text = language.text.maxSimple;
-            languageToolStripMenuItem.Text = language.text.language;
-            clearDataBaseToolStripMenuItem.Text = language.text.clearDataBase;
-            pathToolStripMenuItem.Text = language.text.pathDataBase;
-            exitToolStripMenuItem.Text = language.text.exit;
-            toolStripMenuItem1.Text = language.text.delay;
-            applyToolStripMenuItem.Text = language.text.apply;
-            applyToolStripMenuItem1.Text = language.text.apply;
-            applyToolStripMenuItem2.Text = language.text.apply;
-            countToToolStripMenuItem.Text = language.text.countTo;
-            timeToolStripStatusLabel.Text = language.text.time;
-            saveBackupToolStripMenuItem.Text = language.text.saveBackup;
-            loadBackupToolStripMenuItem.Text = language.text.loadBackup;
-            methodCheckToolStripMenuItem.Text = language.text.methodCheck;
-            simpleToolStripMenuItem.Text = language.text.methodCheckSimple;
-            byTableToolStripMenuItem.Text = language.text.methodCheckByTable;
-            byArrayToolStripMenuItem.Text = language.text.methodSimpleArray;
-            getFromToolStripLabel.Text = language.text.getFrom;
-            getToToolStripLabel.Text = language.text.getTo;
-            getTypeToolStripDropDownButton.Text = language.text.getType;
-            oneColumnToolStripMenuItem.Text = language.text.getTypeOneColumn;
-            columnsToolStripLabel.Text = language.text.getColumns;
-            aboutTheProgramToolStripMenuItem.Text = language.text.aboutTheProgram;
-            ownToolStripButton.Text = language.text.ownAlgorithm;
-            clipBoardToolStripButton.Text = language.text.clipBoard;
-            createTableToolStripMenuItem.Text = language.text.createTables;
-        }
-
-        void VariableToForm()
-        {
-            toolStripTextBox1.Text = DefaultSettings.connectionString;
-            toolStripTextBox2.Text = DefaultSettings.threadSleep.ToString();
-            countToStripTextBox.Text = DefaultSettings.countTo.ToString();
-            getFromToolStripTextBox.Text = DefaultSettings.getFrom.ToString();
-            getToToolStripTextBox.Text = DefaultSettings.getTo.ToString();
-            columnsToolStripTextBox.Text = DefaultSettings.getColumns.ToString();
-        }
-
-        void StartOptions()
-        {
-            ApplyLanguage();
-            VariableToForm();
-            SimpleMethod();
-        }
 
         public Simple()
         {
             InitializeComponent();
         }
 
+        #region Interface
         private void Form1_Load(object sender, EventArgs e)
         {
             StartOptions();
@@ -194,6 +141,62 @@ namespace primeNumbers
                 logics.CopyTable(DefaultSettings.tableBackup, DefaultSettings.table);
         }
 
+        private void getToolStripButton1_Click(object sender, EventArgs e)
+        {
+            StartGetNumbersToScreen();
+        }
+
+        private void toolStripTextBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            OnlyNumber(e);
+        }
+
+        private void toolStripTextBox5_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            OnlyNumber(e);
+        }
+
+        private void columnsToolStripTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            OnlyNumber(e);
+        }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            //  getTypeOutput = new GetTypeOutput(GetTypeOneColumn);
+        }
+
+        private void columnsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //    getTypeOutput = new GetTypeOutput(maths.GetTypeColumns);
+        }
+
+        private void FormulaCheckToolStripButton_Click(object sender, EventArgs e)
+        {
+            listBox.Items.Clear();
+            var from = Convert.ToInt32(getFromToolStripTextBox.Text);
+            var to = Convert.ToInt32(getToToolStripTextBox.Text);
+            logics.OwnAlgorithm(from, to, listBox);
+        }
+
+        private void clipBoardToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (listBox.Items.Count != 0)
+                Clipboard.SetText(string.Join(Environment.NewLine, listBox.Items.OfType<string>().ToArray()));
+        }
+
+        private void aboutTheProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(language.text.aboutTheProgramText);
+        }
+
+        private void createTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logics.CreateTables();
+        }
+        #endregion
+
+        #region Methods
         void MethodKeyColorClear()
         {
             simpleToolStripMenuItem.BackColor = SystemColors.Control;
@@ -201,7 +204,6 @@ namespace primeNumbers
             byArrayToolStripMenuItem.BackColor = SystemColors.Control;
         }
 
-        #region Methods
         void SimpleMethod()
         {
             MethodKeyColorClear();
@@ -242,12 +244,62 @@ namespace primeNumbers
         }
         #endregion
 
-        private void getToolStripButton1_Click(object sender, EventArgs e)
+        #region Private
+        private void ApplyLanguage()
         {
-            StartGetNumbersToScreen();
+            this.Text = language.text.nameProject;
+            FileToolStripMenuItem.Text = language.text.file;
+            HelpToolStripMenuItem.Text = language.text.help;
+            StartToolStripMenuItem.Text = language.text.start;
+            SettingsToolStripMenuItem.Text = language.text.settings;
+            getToolStripButton1.Text = language.text.get;
+            toolStripStatusLabel1.Text = language.text.maxNum;
+            toolStripStatusLabel3.Text = language.text.maxSimple;
+            languageToolStripMenuItem.Text = language.text.language;
+            clearDataBaseToolStripMenuItem.Text = language.text.clearDataBase;
+            pathToolStripMenuItem.Text = language.text.pathDataBase;
+            exitToolStripMenuItem.Text = language.text.exit;
+            toolStripMenuItem1.Text = language.text.delay;
+            applyToolStripMenuItem.Text = language.text.apply;
+            applyToolStripMenuItem1.Text = language.text.apply;
+            applyToolStripMenuItem2.Text = language.text.apply;
+            countToToolStripMenuItem.Text = language.text.countTo;
+            timeToolStripStatusLabel.Text = language.text.time;
+            saveBackupToolStripMenuItem.Text = language.text.saveBackup;
+            loadBackupToolStripMenuItem.Text = language.text.loadBackup;
+            methodCheckToolStripMenuItem.Text = language.text.methodCheck;
+            simpleToolStripMenuItem.Text = language.text.methodCheckSimple;
+            byTableToolStripMenuItem.Text = language.text.methodCheckByTable;
+            byArrayToolStripMenuItem.Text = language.text.methodSimpleArray;
+            getFromToolStripLabel.Text = language.text.getFrom;
+            getToToolStripLabel.Text = language.text.getTo;
+            getTypeToolStripDropDownButton.Text = language.text.getType;
+            oneColumnToolStripMenuItem.Text = language.text.getTypeOneColumn;
+            columnsToolStripLabel.Text = language.text.getColumns;
+            aboutTheProgramToolStripMenuItem.Text = language.text.aboutTheProgram;
+            ownToolStripButton.Text = language.text.ownAlgorithm;
+            clipBoardToolStripButton.Text = language.text.clipBoard;
+            createTableToolStripMenuItem.Text = language.text.createTables;
         }
 
-        void StartGetNumbersToScreen()
+        private void VariableToForm()
+        {
+            toolStripTextBox1.Text = DefaultSettings.connectionString;
+            toolStripTextBox2.Text = DefaultSettings.threadSleep.ToString();
+            countToStripTextBox.Text = DefaultSettings.countTo.ToString();
+            getFromToolStripTextBox.Text = DefaultSettings.getFrom.ToString();
+            getToToolStripTextBox.Text = DefaultSettings.getTo.ToString();
+            columnsToolStripTextBox.Text = DefaultSettings.getColumns.ToString();
+        }
+
+        private void StartOptions()
+        {
+            ApplyLanguage();
+            VariableToForm();
+            SimpleMethod();
+        }
+
+        private void StartGetNumbersToScreen()
         {
             listBox.Items.Clear();
             int from = Convert.ToInt32(getFromToolStripTextBox.Text);
@@ -258,22 +310,7 @@ namespace primeNumbers
             MaxSimple();
         }
 
-        private void toolStripTextBox4_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnlyNumber(e);
-        }
-
-        private void toolStripTextBox5_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnlyNumber(e);
-        }
-
-        private void columnsToolStripTextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnlyNumber(e);
-        }
-
-        bool OnlyNumber(KeyPressEventArgs e)
+        private bool OnlyNumber(KeyPressEventArgs e)
         {
             char number = e.KeyChar;
             if (!Char.IsDigit(number) && number != 8)
@@ -283,60 +320,27 @@ namespace primeNumbers
             return false;
         }
 
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
-        {
-            //  getTypeOutput = new GetTypeOutput(GetTypeOneColumn);
-        }
-
-        private void columnsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //    getTypeOutput = new GetTypeOutput(maths.GetTypeColumns);
-        }
-
-        private void FormulaCheckToolStripButton_Click(object sender, EventArgs e)
-        {
-            listBox.Items.Clear();
-            var from = Convert.ToInt32(getFromToolStripTextBox.Text);
-            var to = Convert.ToInt32(getToToolStripTextBox.Text);
-            logics.OwnAlgorithm(from, to, listBox);
-        }
-
-        private void clipBoardToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (listBox.Items.Count != 0)
-                Clipboard.SetText(string.Join(Environment.NewLine, listBox.Items.OfType<string>().ToArray()));
-        }
-
-        void MaxId()
+        private void MaxId()
         {
             maxIdToolStripStatusLabel.Text = logics.MaxId();
         }
 
-        void MaxSimple()
+        private void MaxSimple()
         {
             maxSimpleToolStripStatusLabel.Text = logics.MaxSimple();
         }
 
         #region Message
-        public void Message(string mes)
+        private void Message(string mes)
         {
             message.Text = mes;
         }
 
-        void Message(int mes)
+        private void Message(int mes)
         {
             message.Text = mes.ToString();
         }
         #endregion
-
-        private void aboutTheProgramToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(language.text.aboutTheProgramText);
-        }
-
-        private void createTableToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            logics.CreateTables();
-        }
+        #endregion
     }
 }
