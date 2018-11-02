@@ -18,6 +18,22 @@ namespace primeNumbers
             InitializeComponent();
         }
 
+        public Logics Logics
+        {
+            get => default(Logics);
+            set
+            {
+            }
+        }
+
+        internal Language Language
+        {
+            get => default(Language);
+            set
+            {
+            }
+        }
+
         #region Interface
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -187,7 +203,9 @@ namespace primeNumbers
 
         private void aboutTheProgramToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(language.text.aboutTheProgramText);
+            //MessageBox.Show(language.text.aboutTheProgramText);
+            AboutBox aboutBox = new AboutBox();
+            aboutBox.ShowDialog();
         }
 
         private void createTableToolStripMenuItem_Click(object sender, EventArgs e)

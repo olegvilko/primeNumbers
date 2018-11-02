@@ -71,13 +71,22 @@ namespace primeNumbers
         {
             var command = new MySqlCommand("SELECT " + str + " FROM " + DefaultSettings.dataBase, mySqlConnection);
             ConnectionOpen();
-            var reader = command.ExecuteReader();
             List<object[]> list = new List<object[]>();
-            foreach (IDataRecord current in reader)
+            try
             {
-                object[] row = new object[reader.FieldCount];
-                reader.GetValues(row);
-                list.Add(row);
+                var reader = command.ExecuteReader();
+            
+            
+                foreach (IDataRecord current in reader)
+                {
+                    object[] row = new object[reader.FieldCount];
+                    reader.GetValues(row);
+                    list.Add(row);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
             ConnectionClose();
             return list;

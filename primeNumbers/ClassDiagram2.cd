@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="primeNumbers.Simple" Collapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GySBAJsEKuPCKKnCAHqTACg/gByRQSgIhD4YKGwkASU=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Logics" />
+      <Property Name="Language" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="primeNumbers.Logics" Collapsed="true">
+    <Position X="9" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAQAAAiICCCIACARSgABEAAEQAgAIAEAAAAAAAAgSA=</HashCode>
+      <FileName>Logics.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sql" />
+      <Property Name="Custom" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="primeNumbers.Sql" Collapsed="true">
+    <Position X="6.75" Y="2.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="primeNumbers.Sql.Table" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Sql.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAAAgAACAAEADBAABAgAAMAAAAAAAAAEAQAgBAAQAAA=</HashCode>
+      <FileName>Sql.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="primeNumbers.Language" Collapsed="true">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="primeNumbers.Language.Text" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Language.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAgACAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAI=</HashCode>
+      <FileName>Language.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="primeNumbers.Custom" Collapsed="true">
+    <Position X="9" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAgAEACAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Custom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="primeNumbers.DefaultSettings" Collapsed="true">
+    <Position X="11.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAABAIBAEgAhABCEAAAAAAIAAAAAICIAAAAjAAAA=</HashCode>
+      <FileName>DefaultSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -269,5 +269,21 @@ namespace primeNumbers
             return numbers;
         }
         #endregion
+
+        public Sql Sql
+        {
+            get => default(Sql);
+            set
+            {
+            }
+        }
+
+        public Custom Custom
+        {
+            get => default(Custom);
+            set
+            {
+            }
+        }
     }
 }

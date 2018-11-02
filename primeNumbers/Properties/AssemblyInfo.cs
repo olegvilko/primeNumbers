@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("primeNumbers")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Программное обеспечение для исследования простых чисел. Работа с программой: https://simpleprimenumbers.blogspot.com/2018/10/blog-post_31.html   Код программы: https://github.com/olegvilko/primeNumbers.git")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Vilko company")]
 [assembly: AssemblyProduct("primeNumbers")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("(<>)")]
 [assembly: AssemblyCulture("")]
 
 // Установка значения False для параметра ComVisible делает типы в этой сборке невидимыми
